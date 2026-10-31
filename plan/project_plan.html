@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>MATH 5248 期末项目完整方案</title>
+<style>
+  @page { size: Letter; margin: 14mm 15mm 14mm 15mm; }
+  body { font-family: "PingFang SC", "Hiragino Sans GB", "STHeiti", sans-serif; font-size: 10.5pt; line-height: 1.5; color: #111; }
+  h1 { font-size: 18pt; margin: 0 0 2px; }
+  .sub { color: #555; margin-bottom: 10px; font-size: 9.5pt; }
+  h2 { font-size: 13.5pt; border-bottom: 1.5px solid #333; padding-bottom: 2px; margin: 18px 0 6px; page-break-after: avoid; }
+  h3 { font-size: 11.5pt; margin: 12px 0 4px; page-break-after: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 4px 0 8px; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th, td { border: 1px solid #999; padding: 3px 6px; vertical-align: top; text-align: left; }
+  th { background: #eee; }
+  .box { border: 1.5px solid #333; padding: 6px 10px; margin: 6px 0 8px; page-break-inside: avoid; }
+  .key { background: #f3f6fb; border-color: #4a6a9a; }
+  .warn { background: #fff7ec; border-color: #c08a3e; }
+  .thm { border-left: 4px solid #4a6a9a; background: #f7f9fc; padding: 5px 10px; margin: 6px 0; page-break-inside: avoid; }
+  .pf { border-left: 4px solid #bbb; padding: 3px 10px; margin: 4px 0 8px; page-break-inside: avoid; }
+  .in { display: inline-block; font-size: 8.5pt; background: #e3f1e6; border: 1px solid #5a9a6a; color: #245b33; border-radius: 3px; padding: 0 5px; margin-left: 4px; font-weight: normal; }
+  .out { display: inline-block; font-size: 8.5pt; background: #fbe9e4; border: 1px solid #c0715a; color: #8a3520; border-radius: 3px; padding: 0 5px; margin-left: 4px; font-weight: normal; }
+  .must { font-weight: bold; color: #1a4f8a; }
+  .maybe { color: #7a5a00; }
+  .spare { color: #777; }
+  ul, ol { margin: 3px 0 3px 20px; padding: 0; }
+  li { margin: 1px 0; }
+  .eg { margin: 2px 0 2px 14px; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .small { font-size: 9.5pt; color: #444; }
+</style>
+</head>
+<body>
+
+<h1>MATH 5248 期末项目完整方案</h1>
+<div style="font-size:12.5pt; font-weight:bold; margin-bottom:2px">话题：整除速判规则背后的模运算（形式：PPT 演讲）</div>
+<div class="sub">两人小组 · 每人 5 分钟 · 文中所有数字例子都已用程序逐一验算 · 标签：<span class="in">课内</span> = 课上讲过，<span class="out">课外</span> = 课上没讲、本项目的新内容</div>
+
+<div class="box key">
+<b>一句话概括：</b>从大家熟悉的"被 3 整除看数字和""被 11 整除看正负交替和"出发，用两个现场魔术引出原理，最后得出一般结论：<br>
+<b>对任何和 10 互素的数 d，只要知道 10 在模 d 下等于什么，就能自己造出 d 的整除规则；费马小定理（以及欧拉定理）保证这样的规则一定存在，而最短的规则由"10 的阶"决定，它恰好等于 1/d 的循环节长度。</b>
+</div>
+
+<div class="small"><b>目录：</b>
+1 作业要求 · 2 评分标准 · 3 我们的项目方案 · 4 定理总表（课内/课外） · 5 共同基础 · 6 同学 A 的内容 · 7 同学 B 的内容 · 8 一般结论 · 9 补充与彩蛋 · 10 PPT 逐页规划 · 11 展示技巧与排练 · 12 可能被问到的问题 · 13 参考资料与时间线</div>
+
+<!-- ============================================================ -->
+<h2>1. 作业要求（Final Mini Project 说明）</h2>
+<p><b>目标：</b>花 5–10 小时深入学习一个和数论有关的内容，用有创意的方式展示所学，并和全班分享。</p>
+
+<h3>必须提交的部分</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:60%">内容</th><th>截止</th></tr>
+<tr><td>1</td><td><b>"Initial Thoughts" Canvas 问卷</b>：想深入学习的话题</td><td><b>11/2（周一）晚 11:59</b></td></tr>
+<tr><td>2</td><td><b>"Project Plan" Canvas 问卷</b>：组员名字（如有）、进度更新、完成计划</td><td>11/20</td></tr>
+<tr><td>3</td><td><b>一个小作品（product）</b>：例如短视频、博客、社交媒体长帖、漫画、绘画、诗、播客等。要让"学过本课、但不熟悉这个话题"的同学看得懂</td><td>12/13</td></tr>
+<tr><td>4</td><td><b>每人 3–5 页 slides</b>，用于课上展示</td><td>12/13</td></tr>
+<tr><td>5</td><td><b>每人 5 分钟课上展示</b>：宣传你们的项目，讲你们学到的最有意思的东西</td><td>课上</td></tr>
+<tr><td>6</td><td><b>"What I learned" 问卷</b>：所有展示结束后提交</td><td>12/21（周一）</td></tr>
+</table>
+
+<h3>其他说明</h3>
+<ul>
+<li>项目可以搞笑、有娱乐性。</li>
+<li>如果效果更好，可以组合多种形式（例如一首歌配图片）。</li>
+<li><b>展示不是为了把话题教给全班</b>，更像一个"广告"：让大家想去仔细看你们的项目、进一步了解这个话题。</li>
+<li>我们的话题在老师给的话题清单里：<i>Divisibility shortcut rules and how they connect to modular arithmetic</i>。清单注明很多话题偏宽，需要收窄到 5–10 小时能学完的量。</li>
+</ul>
+
+<div class="box warn">
+<b>关于"作品"这一项：</b>要求里"作品"（第 3 项）和"slides"（第 4 项）是两个独立部分。我们只做 PPT，所以方案是：
+<ul>
+<li><b>展示版 PPT</b>：每人 3–5 页，用于 5 分钟展示（第 10.1 节）。</li>
+<li><b>完整版 PPT</b>：一份可以脱离讲解、独立阅读的 PPT，包含完整证明、全部例子和定理总表，作为"作品"提交（第 10.2 节）。</li>
+</ul>
+<b>建议在 11/20 的 Project Plan 问卷里写明这个安排，或者在 office hour 当面向老师确认"完整版 PPT 可以作为作品"。</b>
+</div>
+
+<!-- ============================================================ -->
+<h2>2. 评分标准</h2>
+
+<h3>拿 B 必须全部满足</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:50%">要求</th><th>我们怎么满足</th></tr>
+<tr><td>1</td><td>提交上面列出的所有部分</td><td>按第 13 节时间线</td></tr>
+<tr><td>2</td><td>slides 和作品按时提交</td><td>12/13 前交展示版和完整版 PPT</td></tr>
+<tr><td>3</td><td>话题包含课上没讲过的内容</td><td>第 4 节里所有标 <span class="out">课外</span> 的内容</td></tr>
+<tr><td>4</td><td>你学到了新东西</td><td>分组规则、循环小数与阶、砍个位法等</td></tr>
+<tr><td>5</td><td>话题和数论和/或密码学相关</td><td>全部建立在同余、逆元、费马小定理、阶、原根之上；阶和原根正是 Diffie–Hellman 的核心</td></tr>
+<tr><td>6</td><td>作品包含一个正确的例子（或已和老师讨论过为什么不适用）</td><td>本文所有例子都已验算，可直接选用</td></tr>
+<tr><td>7</td><td>作品里的视频/音频每位组员不超过 10 分钟</td><td>我们只做 PPT，不涉及</td></tr>
+<tr><td>8</td><td>作品讲出话题的大概念（定义、重要性质、定理等），并且没有暗示任何错误陈述</td><td>每个规则都给出"为什么成立"，并注意各节的"易错"提示</td></tr>
+<tr><td>9</td><td>作品面向只有 MATH 5248 背景的观众（可以更浅，但不能要求更多知识）</td><td>只用到课内定理，见第 4 节</td></tr>
+<tr><td>10</td><td>附上参考资料列表（任何格式）</td><td>第 13 节</td></tr>
+</table>
+
+<h3>拿 A 的方向（不需要全做到，清单也不是全部）</h3>
+<table>
+<tr><th style="width:42%">方向</th><th>我们的做法</th></tr>
+<tr><td>显著的创意</td><td>两个现场互动魔术；用今年的年份 2026 当贯穿全场的例子；142857 循环数彩蛋</td></tr>
+<tr><td>不用标准定义也能讲清概念（例如讲同余时不说"整除""余数""除法"）</td><td>可选挑战：用"只有 9 个刻度的钟"讲 mod 9（第 11 节）</td></tr>
+<tr><td>选一个对自己有挑战的话题</td><td>第 8 节一般结论：阶、费马小定理、欧拉定理、循环小数</td></tr>
+<tr><td>作品具有难以被复制的原创性</td><td>和观众的现场互动、自己设计的例子和魔术</td></tr>
+</table>
+
+<h3>老师评分时会看</h3>
+<ol>
+<li>数学正确性</li>
+<li>话题和数论和/或密码学相关</li>
+<li>话题让你们学到了新东西</li>
+<li><b>展示的流畅度</b>：明显不是照着 slides 或稿子念</li>
+<li>作品的讲解水平适合只学过 MATH 5248、线性代数和微积分的学生</li>
+<li>创意</li>
+<li>按时提交各部分</li>
+<li>作品难以被复制的程度（明显是人亲手做的）</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2>3. 我们的项目方案</h2>
+<table>
+<tr><th style="width:15%">谁</th><th style="width:47%">数学内容</th><th>魔术 / 亮点</th></tr>
+<tr><td>同学 A</td><td><b>10 ≡ 1 家族</b>：3、9 的数字和规则（含余数版本）→ 两位一组（99）、三位一组（999 = 27 × 37）</td><td>魔术"消失的数字"（mod 9）</td></tr>
+<tr><td>同学 B</td><td><b>10 ≡ −1 家族</b>：11 的交错和规则 → 1001 = 7 × 11 × 13 → 一般结论（费马小定理、阶、循环小数）</td><td>魔术"1001 回到原数"；彩蛋 142857</td></tr>
+</table>
+<p><b>贯穿例子：今年的年份 2026。</b>两人都可以拿 2026 演示：</p>
+<table>
+<tr><th>除数</th><th>规则</th><th>对 2026 的计算</th><th>2026 除以它的余数</th></tr>
+<tr><td>2</td><td>看个位</td><td>6 是偶数</td><td>0 <span class="ok">✓</span></td></tr>
+<tr><td>5</td><td>看个位</td><td>6 除以 5 余 1</td><td>1 <span class="ok">✓</span></td></tr>
+<tr><td>4 / 8</td><td>看末两位 / 末三位</td><td>26 → 余 2 / 026 → 余 2</td><td>2 / 2 <span class="ok">✓</span></td></tr>
+<tr><td>3 / 9</td><td>数字和</td><td>2 + 0 + 2 + 6 = 10 → 余 1</td><td>1 / 1 <span class="ok">✓</span></td></tr>
+<tr><td>11</td><td>交错和（从个位起）</td><td>6 − 2 + 0 − 2 = 2</td><td>2 <span class="ok">✓</span></td></tr>
+<tr><td>7 / 13</td><td>三位一组交错和</td><td>026 − 2 = 24 → 24 除以 7 余 3、除以 13 余 11</td><td>3 / 11 <span class="ok">✓</span></td></tr>
+<tr><td>37</td><td>三位一组相加</td><td>2 + 026 = 28</td><td>28 <span class="ok">✓</span></td></tr>
+</table>
+<p class="small">（附：2026 = 2 × 1013，1013 是素数。）</p>
+
+<!-- ============================================================ -->
+<h2>4. 定理总表：课内 vs 课外</h2>
+<p class="small">"放进 PPT"一栏：<span class="must">必放</span> = 展示版要讲；<span class="maybe">选放</span> = 时间够就讲，完整版一定放；<span class="spare">备用</span> = 只放完整版或留着回答提问。</p>
+
+<h3>4.1 课内工具（课上已经学过，直接引用）</h3>
+<table>
+<tr><th style="width:6%">编号</th><th style="width:38%">定理 / 事实</th><th style="width:13%">课上出处</th><th style="width:27%">本项目哪里用</th><th>放进 PPT</th></tr>
+<tr><td>T1</td><td>除法算法：n = qd + r，0 ≤ r &lt; d，且唯一</td><td>Day 2</td><td>"余数"的定义；长除法</td><td class="spare">备用</td></tr>
+<tr><td>T2</td><td>同余定义 a ≡ b (mod m) ⟺ m | a − b；同余对加法、乘法保持；推论：a ≡ b ⇒ a<sup>k</sup> ≡ b<sup>k</sup></td><td>Day 3</td><td><b>所有规则的核心工具</b></td><td class="must">必放</td></tr>
+<tr><td>T3</td><td>a 是模 m 的单位（有逆元）⟺ gcd(a, m) = 1；用扩展欧几里得求逆元</td><td>Day 4–5</td><td>砍个位法（10 的逆元）</td><td class="maybe">选放</td></tr>
+<tr><td>T4</td><td>Bezout：存在整数 x, y 使 ax + by = gcd(a, b)</td><td>Day 5</td><td>互素因子组合（N13）</td><td class="spare">备用</td></tr>
+<tr><td>T5</td><td>Euclid 引理：p 素数，p | ab ⇒ p | a 或 p | b</td><td>Day 6</td><td>为什么会出现 −1（N6）</td><td class="spare">备用</td></tr>
+<tr><td>T6</td><td>算术基本定理；gcd/lcm 用素因子指数的 min/max</td><td>Day 6–7</td><td>合数拆分、lcm 反例</td><td class="spare">备用</td></tr>
+<tr><td>T7</td><td>中国剩余定理（CRT）</td><td>Day 10–11</td><td>合数 d 的规则（N7）</td><td class="spare">备用</td></tr>
+<tr><td>T8</td><td><b>费马小定理</b>：p 素数，p 不整除 a ⇒ a<sup>p−1</sup> ≡ 1 (mod p)</td><td>Day 11–12</td><td><b>保证每个素数都有分组规则</b></td><td class="must">必放</td></tr>
+<tr><td>T9</td><td>欧拉 φ 函数（积性）；<b>欧拉定理</b>：gcd(a, m) = 1 ⇒ a<sup>φ(m)</sup> ≡ 1 (mod m)</td><td>Day 12–13</td><td>推广到合数 d（N7）</td><td class="maybe">选放</td></tr>
+<tr><td>T10</td><td><b>阶</b>：ord<sub>m</sub>(a) = 使 a<sup>k</sup> ≡ 1 的最小正整数 k；a<sup>n</sup> ≡ 1 ⟺ ord | n；因此 ord | φ(m)</td><td>Day 13</td><td><b>最短分组长度</b>、循环节长度</td><td class="must">必放</td></tr>
+<tr><td>T11</td><td><b>原根</b>：ord<sub>m</sub>(a) = φ(m) 的 a</td><td>Day 14</td><td>142857 彩蛋（N9）</td><td class="maybe">选放</td></tr>
+</table>
+
+<h3>4.2 课外新内容（本项目要学、要讲的）</h3>
+<table>
+<tr><th style="width:6%">编号</th><th style="width:40%">定理 / 内容</th><th style="width:14%">用到的课内工具</th><th style="width:13%">谁讲</th><th>放进 PPT</th></tr>
+<tr><td>N1</td><td>十进制展开：n = d<sub>0</sub> + d<sub>1</sub>·10 + d<sub>2</sub>·10² + ⋯</td><td>（常识）</td><td>A</td><td class="must">必放</td></tr>
+<tr><td>N2</td><td><b>数字和定理</b>：n ≡ 各位数字之和 (mod 9)，也 (mod 3)</td><td>T2</td><td>A</td><td class="must">必放</td></tr>
+<tr><td>N3</td><td><b>交错和定理</b>：n ≡ d<sub>0</sub> − d<sub>1</sub> + d<sub>2</sub> − ⋯ (mod 11)</td><td>T2</td><td>B</td><td class="must">必放</td></tr>
+<tr><td>N4</td><td><b>分组主定理</b>：10<sup>k</sup> ≡ 1 → k 位一组相加；10<sup>k</sup> ≡ −1 → k 位一组交错相加</td><td>T2</td><td>A 讲"相加"，B 讲"交错"</td><td class="must">必放</td></tr>
+<tr><td>N5</td><td>具体规则：99（两位一组）、999 = 27 × 37（三位一组）、101（两位交错）、<b>1001 = 7 × 11 × 13</b>（三位交错）</td><td>N4</td><td>A：99/999；B：1001</td><td class="must">必放</td></tr>
+<tr><td>N6</td><td><b>存在性</b>：p ≠ 2, 5 的素数一定有分组规则，最短组长 = ord<sub>p</sub>(10)，且整除 p − 1；阶为偶数时 10<sup>k/2</sup> ≡ −1</td><td>T8、T10、T5</td><td>B</td><td class="must">必放</td></tr>
+<tr><td>N7</td><td>推广到合数 d（gcd(d, 10) = 1）：例 27、77</td><td>T9、T7</td><td>B</td><td class="spare">备用</td></tr>
+<tr><td>N8</td><td><b>1/d 的循环节长度 = ord<sub>d</sub>(10)</b></td><td>T1、T10</td><td>B</td><td class="must">必放</td></tr>
+<tr><td>N9</td><td>循环数 142857：10 是模 7 的原根，所以 1/7 到 6/7 的小数是同一串数字的轮换</td><td>T11</td><td>B</td><td class="maybe">选放（彩蛋）</td></tr>
+<tr><td>N10</td><td>Midy 定理：142 + 857 = 999</td><td>T2、N6</td><td>B</td><td class="spare">备用</td></tr>
+<tr><td>N11</td><td><b>砍个位法</b>：d | 10x + y ⟺ d | x + m·y，m = 10 模 d 的逆元（7：x − 2y）</td><td>T3</td><td>B</td><td class="maybe">选放</td></tr>
+<tr><td>N12</td><td>2<sup>k</sup>、5<sup>k</sup> 看末 k 位</td><td>T2</td><td>A 或 B</td><td class="spare">备用</td></tr>
+<tr><td>N13</td><td>互素因子组合：a | n、b | n、gcd(a, b) = 1 ⇒ ab | n（反例：4、6、24）</td><td>T4</td><td>任一</td><td class="spare">备用</td></tr>
+<tr><td>N14</td><td>其他进制：b 进制里数字和判 b − 1，交错和判 b + 1</td><td>T2</td><td>任一</td><td class="spare">备用</td></tr>
+<tr><td>N15</td><td>魔术 A"消失的数字"的原理</td><td>N2</td><td>A</td><td class="must">必放</td></tr>
+<tr><td>N16</td><td>魔术 B"1001 回到原数"的原理</td><td>N5</td><td>B</td><td class="must">必放</td></tr>
+<tr><td>N17</td><td>×11 速算（乘法技巧）</td><td>（算术）</td><td>A</td><td class="maybe">选放（开场）</td></tr>
+<tr><td>N18</td><td>实际应用：ISBN-10 校验码（mod 11）</td><td>T3、T5</td><td>任一</td><td class="spare">备用</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>5. 共同基础（两人都要懂）</h2>
+
+<div class="thm"><b>N1 十进制展开</b><span class="out">课外（常识）</span><br>
+一个各位数字从右往左是 d<sub>0</sub>（个位）、d<sub>1</sub>（十位）、d<sub>2</sub>（百位）……的数可以写成
+<div class="eg">n = d<sub>0</sub> + d<sub>1</sub>·10 + d<sub>2</sub>·10² + ⋯ + d<sub>k</sub>·10<sup>k</sup>。</div>
+例：2026 = 2·10³ + 0·10² + 2·10 + 6。</div>
+
+<div class="thm"><b>T2 同余的加法、乘法、幂性质</b><span class="in">课内 Day 3</span><br>
+若 a ≡ b 且 c ≡ e (mod m)，则 a + c ≡ b + e，ac ≡ be (mod m)。反复用乘法性质得：a ≡ b ⇒ a<sup>k</sup> ≡ b<sup>k</sup> (mod m)。</div>
+
+<div class="box key">
+<b>整个项目的核心想法：只要知道 10 在模 d 下等于什么，把它代进十进制展开，规则就出来了。</b>
+<table style="margin-top:4px">
+<tr><th>10 在模 d 下</th><th>代入后</th><th>得到的规则</th><th>例子</th></tr>
+<tr><td>10 ≡ 1</td><td>10<sup>i</sup> ≡ 1</td><td>各位<b>直接相加</b></td><td>d = 3, 9</td></tr>
+<tr><td>10 ≡ −1</td><td>10<sup>i</sup> ≡ (−1)<sup>i</sup></td><td>各位<b>正负交替相加</b></td><td>d = 11</td></tr>
+<tr><td>10 ≡ 0</td><td>10<sup>i</sup> ≡ 0（i ≥ 1）</td><td><b>只看个位</b></td><td>d = 2, 5</td></tr>
+<tr><td>10<sup>k</sup> ≡ 1</td><td>以 10<sup>k</sup> 为一"位"</td><td><b>k 位一组相加</b></td><td>d = 99, 999, 37</td></tr>
+<tr><td>10<sup>k</sup> ≡ −1</td><td>同上</td><td><b>k 位一组交错相加</b></td><td>d = 101, 1001, 7, 13</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h2>6. 同学 A：10 ≡ 1 家族</h2>
+
+<h3>6.1 数字和定理（3 和 9）</h3>
+<div class="thm"><b>N2 定理</b><span class="out">课外</span>　对任意非负整数 n，设 S(n) 为 n 的各位数字之和，则
+<div class="eg"><b>n ≡ S(n) (mod 9)</b>，因此也有 n ≡ S(n) (mod 3)。</div>
+特别地：9 | n ⟺ 9 | S(n)，3 | n ⟺ 3 | S(n)。</div>
+<div class="pf"><b>证明：</b>写 n = d<sub>0</sub> + d<sub>1</sub>·10 + ⋯ + d<sub>k</sub>·10<sup>k</sup>。因为 10 = 9 + 1，所以 10 ≡ 1 (mod 9)。由 T2 的幂性质，10<sup>i</sup> ≡ 1<sup>i</sup> = 1 (mod 9)；再由乘法性质 d<sub>i</sub>·10<sup>i</sup> ≡ d<sub>i</sub>，由加法性质
+<div class="eg">n ≡ d<sub>0</sub> + d<sub>1</sub> + ⋯ + d<sub>k</sub> = S(n) (mod 9)。</div>
+最后，若 9 | n − S(n)，因为 3 | 9，所以 3 | n − S(n)，即 mod 3 也成立。∎</div>
+<ul>
+<li>例：7452 → 7 + 4 + 5 + 2 = 18，所以 9 | 7452（7452 = 9 × 828）<span class="ok">✓</span></li>
+<li>余数版本：2026 → 2 + 0 + 2 + 6 = 10 → 1 + 0 = 1，所以 2026 除以 9 余 1，除以 3 也余 1 <span class="ok">✓</span></li>
+<li><b>亮点：</b>不只能判断"能不能整除"，<b>连余数都完全一样</b>，而且可以反复用（10 → 1）。</li>
+</ul>
+
+<h3>6.2 推广：两位一组、三位一组（分组主定理的"相加"部分）</h3>
+<div class="thm"><b>N4(1) 定理</b><span class="out">课外</span>　若 10<sup>k</sup> ≡ 1 (mod d)，把 n 从个位开始每 k 位分成一组 B<sub>0</sub>（最右）、B<sub>1</sub>、B<sub>2</sub>、……，则
+<div class="eg"><b>n ≡ B<sub>0</sub> + B<sub>1</sub> + B<sub>2</sub> + ⋯ (mod d)</b>。</div></div>
+<div class="pf"><b>证明：</b>分组就是把 n 写成"10<sup>k</sup> 进制"：n = B<sub>0</sub> + B<sub>1</sub>·10<sup>k</sup> + B<sub>2</sub>·(10<sup>k</sup>)² + ⋯。由 10<sup>k</sup> ≡ 1 和 T2，(10<sup>k</sup>)<sup>j</sup> ≡ 1，所以 n ≡ B<sub>0</sub> + B<sub>1</sub> + B<sub>2</sub> + ⋯。和 6.1 的证明完全一样，只是"10"换成了"10<sup>k</sup>"。∎</div>
+<ul>
+<li><b>k = 2：</b>100 = 99 + 1 ≡ 1 (mod 99)，所以两位一组相加可以判断 99 及其因数 3、9、11、33。<br>
+<span class="eg">例：123453 → 12 + 34 + 53 = 99，所以 99 | 123453（= 99 × 1247）<span class="ok">✓</span></span></li>
+<li><b>k = 3：</b>1000 = 999 + 1 ≡ 1 (mod 999)，而 <b>999 = 27 × 37</b>，所以三位一组相加可以判断 27、37（以及 3、9、111、333）。<br>
+<span class="eg">例：45658 → 45 + 658 = 703 = 19 × 37，所以 37 | 45658（= 37 × 1234）<span class="ok">✓</span></span><br>
+<span class="eg">例：116667 → 116 + 667 = 783 = 27 × 29，所以 27 | 116667（= 27 × 4321）<span class="ok">✓</span></span><br>
+<span class="eg">例：2026 → 2 + 026 = 28，所以 2026 除以 37 余 28 <span class="ok">✓</span></span></li>
+</ul>
+<div class="box warn"><b>易错：</b>
+<ul>
+<li>分组一定要<b>从个位开始往左分</b>：45658 分成 45 | 658，不是 456 | 58。</li>
+<li>三位一组相加<b>不能</b>判断 7 或 13（它们不整除 999）；7、13 要用 B 的"交错"规则。</li>
+</ul></div>
+
+<h3>6.3 魔术："消失的数字"</h3>
+<table>
+<tr><th style="width:6%">步</th><th style="width:56%">观众做的</th><th>例子</th></tr>
+<tr><td>1</td><td>心里想一个四位数（各位不能全相同）</td><td>5274</td></tr>
+<tr><td>2</td><td>把各位数字打乱，组成另一个数</td><td>7425</td></tr>
+<tr><td>3</td><td>大的减小的</td><td>7425 − 5274 = 2151</td></tr>
+<tr><td>4</td><td>在结果里圈出一个<b>非零</b>数字藏起来，其余数字按任意顺序念出来</td><td>圈 5，念出 2、1、1</td></tr>
+<tr><td>5</td><td><b>表演者：</b>把念出的数字相加，再找"补到下一个 9 的倍数还差几"，就是藏起来的数字</td><td>2 + 1 + 1 = 4，差 5 到 9 → <b>5</b> <span class="ok">✓</span></td></tr>
+</table>
+<p><b>特殊情况：</b>念出的数字之和本身就是 9 的倍数时，答案是 <b>9</b>（不是 0，因为规定圈非零数字）。<br>
+<span class="eg">例：8317 打乱成 1378，8317 − 1378 = 6939。圈一个 9，念出 6、3、9，和是 18 → 答案 <b>9</b> <span class="ok">✓</span></span><br>
+<span class="eg">三位数版本（更快）：831 打乱成 138，831 − 138 = 693，数字和 18 <span class="ok">✓</span></span></p>
+<div class="thm"><b>N15 为什么成立</b><span class="out">课外</span>
+<ol>
+<li>原数 n 和打乱后的数 n′ 各位数字一样，所以 S(n) = S(n′)。</li>
+<li>由 N2，n ≡ S(n) = S(n′) ≡ n′ (mod 9)，所以 n − n′ ≡ 0 (mod 9)。</li>
+<li>再由 N2，差 D = n − n′ 的数字和 S(D) ≡ D ≡ 0 (mod 9)。</li>
+<li>设藏起来的数字是 x（1 ≤ x ≤ 9），念出的和是 s，则 s + x ≡ 0 (mod 9)。在 1 到 9 之间满足这个条件的 x 只有一个，所以答案唯一。</li>
+</ol>
+<b>为什么必须圈非零数字：</b>若允许圈 0，藏 0 和藏 9 时念出的和除以 9 余数一样，分不出来。<br>
+<b>可能的意外：</b>观众打乱后和原数一样（差为 0），请他重新打乱。</div>
+
+<!-- ============================================================ -->
+<h2>7. 同学 B：10 ≡ −1 家族</h2>
+
+<h3>7.1 交错和定理（11）</h3>
+<div class="thm"><b>N3 定理</b><span class="out">课外</span>　<b>n ≡ d<sub>0</sub> − d<sub>1</sub> + d<sub>2</sub> − d<sub>3</sub> + ⋯ (mod 11)</b>，即从个位开始 +、−、+、− 交替相加。特别地，11 | n ⟺ 11 整除这个交错和。</div>
+<div class="pf"><b>证明：</b>10 = 11 − 1，所以 10 ≡ −1 (mod 11)。由 T2，10<sup>i</sup> ≡ (−1)<sup>i</sup>，代入十进制展开，n ≡ d<sub>0</sub> − d<sub>1</sub> + d<sub>2</sub> − ⋯ (mod 11)。∎</div>
+<ul>
+<li>例：918082 → 2 − 8 + 0 − 8 + 1 − 9 = −22，−22 = −2 × 11，所以 11 | 918082（= 11 × 83462）<span class="ok">✓</span></li>
+<li>余数版本：2026 → 6 − 2 + 0 − 2 = 2，所以 2026 除以 11 余 2 <span class="ok">✓</span></li>
+</ul>
+<div class="box warn"><b>易错：</b>只判断能否整除时从哪边开始都行；<b>算余数必须从个位开始取 +</b>。例如 2026 从左边开始算是 2 − 0 + 2 − 6 = −2，符号反了（−2 ≡ 9，不是余数 2）。结果是负数没关系，加上 11 的倍数即可。</div>
+
+<h3>7.2 推广：101 和 1001（分组主定理的"交错"部分）</h3>
+<div class="thm"><b>N4(2) 定理</b><span class="out">课外</span>　若 10<sup>k</sup> ≡ −1 (mod d)，则 <b>n ≡ B<sub>0</sub> − B<sub>1</sub> + B<sub>2</sub> − ⋯ (mod d)</b>（B<sub>j</sub> 是从个位开始的 k 位一组）。证明同 N4(1)，用 (10<sup>k</sup>)<sup>j</sup> ≡ (−1)<sup>j</sup>。</div>
+<ul>
+<li><b>k = 2：</b>100 ≡ −1 (mod 101)，两位一组交错。<br>
+<span class="eg">例：461267 → 67 − 12 + 46 = 101，所以 101 | 461267（= 101 × 4567）<span class="ok">✓</span></span></li>
+<li><b>k = 3：</b>1000 ≡ −1 (mod 1001)，而 <b>1001 = 7 × 11 × 13</b>，所以<b>一个规则同时判断 7、11、13</b>，连余数都对。<br>
+<span class="eg">例：1002001 → 001 − 002 + 1 = 0，所以 7、11、13 都整除它（其实 1002001 = 1001²）<span class="ok">✓</span></span><br>
+<span class="eg">例：1283945 → 945 − 283 + 1 = 663 = 13 × 51，所以 13 | 1283945；663 除以 7 余 5，所以 7 不整除 1283945，并且 1283945 除以 7 也正好余 5 <span class="ok">✓</span></span><br>
+<span class="eg">例：2026 → 026 − 2 = 24，所以 2026 除以 7 余 3，除以 13 余 11 <span class="ok">✓</span></span></li>
+</ul>
+
+<h3>7.3 魔术："1001 回到原数"</h3>
+<table>
+<tr><th style="width:6%">步</th><th style="width:56%">观众做的</th><th>例子</th></tr>
+<tr><td>1</td><td>写一个三位数</td><td>572</td></tr>
+<tr><td>2</td><td>再写一遍，拼成六位数</td><td>572572</td></tr>
+<tr><td>3</td><td>观众 1 用计算器除以 7（"一定能整除，不信你试"）</td><td>81796</td></tr>
+<tr><td>4</td><td>观众 2 除以 11</td><td>7436</td></tr>
+<tr><td>5</td><td>观众 3 除以 13</td><td><b>572</b>，回到原数 <span class="ok">✓</span></td></tr>
+</table>
+<div class="thm"><b>N16 为什么成立</b><span class="out">课外</span><br>
+abcabc = abc × 1000 + abc = abc × 1001 = abc × 7 × 11 × 13。依次除以 7、11、13，就是除以 1001，所以回到 abc。<br>
+<b>和 7.2 的联系：</b>用三位交错和检查 572572：572 − 572 = 0，马上知道它能被 7、11、13 整除。<br>
+<b>表演建议：</b>请三位不同的同学各按一次计算器，最后一位报出原数时效果最好。也可以让第一位同学先猜"能不能被 7 整除"。</div>
+
+<!-- ============================================================ -->
+<h2>8. 一般结论（项目的核心亮点）</h2>
+
+<h3>8.1 分组规则一定存在：费马小定理</h3>
+<div class="thm"><b>N6 定理</b><span class="out">课外</span>　设 p 是素数，p ≠ 2, 5。
+<ol>
+<li>p 一定有一个分组规则：<b>(p − 1) 位一组相加</b>。</li>
+<li>最短的组长是 <b>k = ord<sub>p</sub>(10)</b>（10 模 p 的阶），并且 k | p − 1。</li>
+<li>若 k 是偶数，则 10<sup>k/2</sup> ≡ −1 (mod p)，于是还有<b>(k/2) 位一组交错相加</b>的规则。</li>
+</ol></div>
+<div class="pf"><b>证明：</b>
+(1) p ≠ 2, 5 且 p 是素数，所以 p 不整除 10。由<b>费马小定理（T8）</b>，10<sup>p−1</sup> ≡ 1 (mod p)，代入 N4(1)（k = p − 1）即得。<br>
+(2) 由阶的定义，k 是使 10<sup>k</sup> ≡ 1 的最小正整数，所以 k 位一组是最短的"相加"规则；由 T10，10<sup>p−1</sup> ≡ 1 ⇒ k | p − 1。<br>
+(3) 令 x = 10<sup>k/2</sup>，则 x² = 10<sup>k</sup> ≡ 1，即 p | x² − 1 = (x − 1)(x + 1)。由 <b>Euclid 引理（T5）</b>，p | x − 1 或 p | x + 1。若 p | x − 1，则 10<sup>k/2</sup> ≡ 1，和 k 的最小性矛盾。所以 p | x + 1，即 10<sup>k/2</sup> ≡ −1 (mod p)。∎</div>
+
+<table>
+<tr><th>d</th><th>ord<sub>d</sub>(10)</th><th>10<sup>j</sup> ≡ −1 的 j</th><th>1/d 的小数（下划线 = 循环节）</th><th>最实用的规则</th></tr>
+<tr><td>3、9</td><td>1</td><td>—</td><td>0.<u>3</u>…，0.<u>1</u>…</td><td>数字和</td></tr>
+<tr><td>11</td><td>2</td><td>1</td><td>0.<u>09</u>…</td><td>一位交错和</td></tr>
+<tr><td>37</td><td>3</td><td>—</td><td>0.<u>027</u>…</td><td>三位一组相加</td></tr>
+<tr><td>101</td><td>4</td><td>2</td><td>0.<u>0099</u>…</td><td>两位一组交错</td></tr>
+<tr><td>41</td><td>5</td><td>—</td><td>0.<u>02439</u>…</td><td>五位一组相加（99999 = 9 × 41 × 271）</td></tr>
+<tr><td>7</td><td>6</td><td>3</td><td>0.<u>142857</u>…</td><td>三位一组交错</td></tr>
+<tr><td>13</td><td>6</td><td>3</td><td>0.<u>076923</u>…</td><td>三位一组交错</td></tr>
+<tr><td>17</td><td>16</td><td>8</td><td>0.<u>0588235294117647</u>…</td><td>八位交错（太长，改用砍个位法）</td></tr>
+<tr><td>19</td><td>18</td><td>9</td><td>循环节 18 位</td><td>九位交错（太长，改用砍个位法）</td></tr>
+</table>
+<p class="small">观察：表里每个素数都满足 ord<sub>p</sub>(10) | p − 1（例如 7：6 | 6；13：6 | 12；37：3 | 36；41：5 | 40），这就是 N6(2)。</p>
+
+<h3>8.2 循环小数：组长 = 循环节长度</h3>
+<div class="thm"><b>N8 定理</b><span class="out">课外</span>　若 gcd(d, 10) = 1 且 d &gt; 1，则 1/d 是纯循环小数，<b>循环节长度 = ord<sub>d</sub>(10)</b>。</div>
+<div class="pf"><b>证明思路：</b>用长除法算 1/d：从余数 r<sub>0</sub> = 1 开始，每一步"余数乘 10，再除以 d"，下一个余数 r<sub>i+1</sub> 就是 10·r<sub>i</sub> 除以 d 的余数（T1），所以 r<sub>i</sub> ≡ 10<sup>i</sup> (mod d)。当余数第一次回到 1 时，后面的计算和开头一模一样，小数开始重复；余数第一次回到 1 正好发生在 i = ord<sub>d</sub>(10)。<br>
+<b>另一种看法：</b>1/7 = 0.142857 142857…，乘以 10⁶ 再减去自己，小数部分正好抵消：10⁶/7 − 1/7 = 142857，即 <b>999999 = 7 × 142857</b>，也就是 10⁶ ≡ 1 (mod 7)。</div>
+<div class="box key"><b>一句话：</b>"7 的整除规则用几位一组"和"1/7 循环几位"是<b>同一个问题</b>，答案都是 10 模 7 的阶 = 6。</div>
+
+<h3>8.3 推广到合数 d</h3>
+<div class="thm"><b>N7</b><span class="out">课外</span>　若 gcd(d, 10) = 1（d 可以是合数），由<b>欧拉定理（T9）</b>，10<sup>φ(d)</sup> ≡ 1 (mod d)，所以 φ(d) 位一组相加一定是 d 的规则；最短的组长仍是 ord<sub>d</sub>(10)，且它整除 φ(d)。</div>
+<ul>
+<li>d = 27：φ(27) = 18，但 ord<sub>27</sub>(10) = 3（因为 999 = 27 × 37），所以三位一组相加就够了。例 116667 → 783 = 27 × 29 <span class="ok">✓</span></li>
+<li>d = 77：因为 77 | 1001，所以 1000 ≡ −1 (mod 77)，三位一组交错。例 950565 → 565 − 950 = −385 = −5 × 77，所以 77 | 950565（= 77 × 12345）<span class="ok">✓</span><br>
+<span class="small">CRT 的角度：模 77 等价于同时模 7 和模 11，而 10³ 在两边都 ≡ −1。</span></li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>9. 补充内容与彩蛋</h2>
+
+<h3>9.1 砍个位法（用 10 的逆元）</h3>
+<div class="thm"><b>N11 定理</b><span class="out">课外</span>　设 gcd(d, 10) = 1，m 是 10 模 d 的逆元（10m ≡ 1 (mod d)，由 T3 存在）。把 n 写成 n = 10x + y（y 是个位，x 是去掉个位剩下的数），则
+<div class="eg"><b>d | n ⟺ d | x + m·y</b>。</div></div>
+<div class="pf"><b>证明：</b>(⇐) 10·(x + my) = 10x + (10m)y ≡ 10x + y = n (mod d)。若 d | x + my，则 d | 10(x + my)，所以 n ≡ 0。<br>
+(⇒) m·n = 10m·x + m·y ≡ x + m·y (mod d)。若 d | n，则 d | mn，所以 x + my ≡ 0。∎</div>
+<table>
+<tr><th style="width:7%">d</th><th style="width:18%">10 的逆元 m</th><th style="width:13%">规则</th><th>例子</th></tr>
+<tr><td>7</td><td>5 ≡ −2</td><td><b>x − 2y</b></td><td>343 → 34 − 6 = 28 <span class="ok">✓</span>；2401 → 240 − 2 = 238 → 23 − 16 = 7 <span class="ok">✓</span>；2026 → 202 − 12 = 190 → 19 − 0 = 19，不是 7 的倍数 <span class="ok">✓</span></td></tr>
+<tr><td>13</td><td>4</td><td>x + 4y</td><td>169 → 16 + 36 = 52 → 5 + 8 = 13 <span class="ok">✓</span></td></tr>
+<tr><td>17</td><td>12 ≡ −5</td><td>x − 5y</td><td>289 → 28 − 45 = −17 <span class="ok">✓</span></td></tr>
+<tr><td>19</td><td>2</td><td>x + 2y</td><td>361 → 36 + 2 = 38 <span class="ok">✓</span></td></tr>
+</table>
+<div class="box warn"><b>易错：</b>砍个位法只保留"能不能整除"，<b>余数一般会变</b>。例：2026 除以 7 余 3，但砍完得到的 19 除以 7 余 5。所以要说"能否整除"，不要说"余数相同"。</div>
+
+<h3>9.2 彩蛋：循环数 142857</h3>
+<div class="thm"><b>N9</b><span class="out">课外</span>　142857 × 1, 2, 3, 4, 5, 6 = 142857、285714、428571、571428、714285、857142，<b>全是同一串数字的轮换</b>；而 142857 × 7 = 999999。<br>
+<b>原因：</b>10 的各次幂模 7 依次是 3, 2, 6, 4, 5, 1，跑遍了所有非零余数，也就是说 <b>10 是模 7 的原根（T11）</b>。长除法算 k/7 时，余数序列只是从这个循环的不同位置开始，所以 1/7、2/7、…、6/7 的小数都是 142857 的轮换：1/7 = 0.142857…，2/7 = 0.285714…，3/7 = 0.428571…</div>
+
+<h3>9.3 Midy 定理（选讲）</h3>
+<div class="thm"><b>N10</b><span class="out">课外</span>　1/7 的循环节 142857：142 + 857 = 999；1/13 的循环节 076923：076 + 923 = 999；1/17 的循环节分两半：05882352 + 94117647 = 99999999。<br>
+<b>证明（p 素数，10<sup>j</sup> ≡ −1，循环节长 2j）：</b>循环节 R = (10<sup>2j</sup> − 1)/p = (10<sup>j</sup> − 1)·c，其中 c = (10<sup>j</sup> + 1)/p 是整数。于是 R = c·10<sup>j</sup> − c = (c − 1)·10<sup>j</sup> + (10<sup>j</sup> − c)，前半 A = c − 1，后半 B = 10<sup>j</sup> − c，所以 A + B = 10<sup>j</sup> − 1 = 99…9。例：p = 7，c = 1001/7 = 143，A = 142，B = 1000 − 143 = 857 <span class="ok">✓</span></div>
+
+<h3>9.4 2 和 5、合数、其他进制</h3>
+<ul>
+<li><b>N12：</b>10<sup>k</sup> = 2<sup>k</sup>·5<sup>k</sup> ≡ 0 (mod 2<sup>k</sup>)，所以 n ≡ 末 k 位 (mod 2<sup>k</sup>)，5<sup>k</sup> 同理。4、25 看末两位，8、125 看末三位。例：2026 末三位 026 = 26，除以 8 余 2，2026 除以 8 也余 2 <span class="ok">✓</span></li>
+<li><b>N13：</b>若 a | n、b | n 且 gcd(a, b) = 1，则 ab | n。<br>
+<span class="small">证明：由 Bezout（T4），ax + by = 1，所以 n = axn + byn。因为 b | n，ab | axn；因为 a | n，ab | byn。所以 ab | n。</span><br>
+应用：6 = 2 × 3、12 = 4 × 3、66 = 2 × 3 × 11 可以拆开分别判断。<b>反例（必须互素）：</b>12 能被 4 和 6 整除，却不能被 24 整除，因为 lcm(4, 6) = 12。</li>
+<li><b>N14（选讲）：</b>b 进制里 b ≡ 1 (mod b − 1)，b ≡ −1 (mod b + 1)。例：100 在八进制里是 144<sub>8</sub>，数字和 9 ≡ 2 (mod 7)，而 100 = 14 × 7 + 2 <span class="ok">✓</span>；交错和 4 − 4 + 1 = 1，而 100 = 11 × 9 + 1 <span class="ok">✓</span></li>
+</ul>
+
+<h3>9.5 开场小钩子：×11 速算</h3>
+<ul>
+<li>两位数：ab × 11 = a | a+b | b。例：36 × 11 = 3 | 9 | 6 = 396 <span class="ok">✓</span></li>
+<li>进位：75 × 11 → 7 | 12 | 5 → 825 <span class="ok">✓</span>；三位数：123 × 11 = 1 | 3 | 5 | 3 = 1353 <span class="ok">✓</span></li>
+<li>原理：11 × (10a + b) = 100a + 10(a + b) + b。这是<b>乘法速算</b>，不是整除规则，只用来开场。可以顺势引出："乘 11 是把相邻两位<b>相加</b>，判断能否被 11 整除则是把各位<b>交替相减</b>。"</li>
+</ul>
+
+<h3>9.6 实际应用：ISBN-10 校验码</h3>
+<div class="thm"><b>N18</b><span class="out">课外</span>　十位数的 ISBN 书号 d<sub>1</sub>d<sub>2</sub>…d<sub>10</sub> 满足 <b>10d<sub>1</sub> + 9d<sub>2</sub> + ⋯ + 2d<sub>9</sub> + 1·d<sub>10</sub> ≡ 0 (mod 11)</b>（最后一位若是 10 就写成 X）。<br>
+例：0-306-40615-2 → 0 + 27 + 0 + 42 + 24 + 0 + 24 + 3 + 10 + 2 = 132 = 12 × 11 <span class="ok">✓</span><br>
+<b>为什么用 11：</b>11 是素数，权重 1–10 都是模 11 的单位（T3），所以抄错<b>任意一位</b>、或<b>交换相邻两位</b>都会让和不再 ≡ 0，能被发现（用 Euclid 引理 T5 证明）。这是"整除规则"在现实里的用法。</div>
+
+<!-- ============================================================ -->
+<h2>10. PPT 逐页规划</h2>
+
+<h3>10.1 展示版（每人 5 页、5 分钟）</h3>
+<p class="small">标题可选："数字会说话：整除规则背后的模运算" / "为什么 2 + 0 + 2 + 6 能告诉你 2026 的秘密"</p>
+<table>
+<tr><th colspan="4" style="background:#e3e9f3">同学 A</th></tr>
+<tr><th style="width:7%">页</th><th style="width:14%">时间</th><th style="width:20%">标题</th><th>页面内容</th></tr>
+<tr><td>A1</td><td>0:00–0:30</td><td>标题 + 提问</td><td>项目标题、两人名字；问全班"2026 能被 9 整除吗？"（可选：现场 ×11 速算 36 × 11）</td></tr>
+<tr><td>A2</td><td>0:30–1:45</td><td>魔术时间</td><td>"消失的数字"五个步骤（观众跟着做），请一位同学参与</td></tr>
+<tr><td>A3</td><td>1:45–3:00</td><td>揭秘</td><td>2026 = 2·10³ + 0·10² + 2·10 + 6；10 ≡ 1 (mod 9) ⇒ 2026 ≡ 2 + 0 + 2 + 6；打乱不改变数字和 ⇒ 差 ≡ 0</td></tr>
+<tr><td>A4</td><td>3:00–4:15</td><td>推广</td><td>100 ≡ 1 (mod 99)；1000 ≡ 1 (mod 999 = 27 × 37)；例 45658 → 45 + 658 = 703 = 19 × 37</td></tr>
+<tr><td>A5</td><td>4:15–5:00</td><td>过渡</td><td>"10 ≡ 1 的情况用完了。那 10 ≡ −1 呢？7 和 13 有没有规则？"，交给 B</td></tr>
+<tr><th colspan="4" style="background:#e3e9f3">同学 B</th></tr>
+<tr><td>B1</td><td>0:00–1:15</td><td>魔术时间</td><td>"1001 回到原数"：abc → abcabc → ÷7 → ÷11 → ÷13，请三位同学用计算器</td></tr>
+<tr><td>B2</td><td>1:15–2:15</td><td>揭秘</td><td>abcabc = abc × 1001 = abc × 7 × 11 × 13；10 ≡ −1 (mod 11) ⇒ 交错和；1000 ≡ −1 (mod 1001) ⇒ 三位交错（2026 → 026 − 2 = 24）</td></tr>
+<tr><td>B3</td><td>2:15–3:15</td><td>一般结论</td><td>10<sup>k</sup> ≡ ±1 (mod d) ⇒ k 位分组规则；8.1 节的表（3、11、37、7、13）</td></tr>
+<tr><td>B4</td><td>3:15–4:30</td><td>为什么一定存在</td><td>费马小定理 10<sup>p−1</sup> ≡ 1；最短组长 = 阶 = 1/p 循环节长度；1/7 = 0.142857…；彩蛋：142857 × 2 = 285714</td></tr>
+<tr><td>B5</td><td>4:30–5:00</td><td>总结</td><td>一句话结论（本文开头的方框）；"砍个位法 x − 2y、ISBN 校验码等更多内容见我们的完整版"</td></tr>
+</table>
+
+<h3>10.2 完整版（作为"作品"提交，约 20 页）</h3>
+<ol>
+<li>封面：标题、名字</li>
+<li>目录 + "我们想回答的问题"：为什么数字和能判断 3 和 9？其他数也有这种规则吗？</li>
+<li>共同基础：十进制展开 + 同余性质（T2）+ 第 5 节的总表</li>
+<li>数字和定理（N2）：定理、证明、2026 和 7452 的例子</li>
+<li>魔术 A 的步骤和原理（N15），含"答案是 9"的特殊情况</li>
+<li>两位一组、三位一组（N4(1)）：99、999 = 27 × 37，三个例子</li>
+<li>交错和定理（N3）：证明、918082 和 2026 的例子、"从哪边开始"的易错点</li>
+<li>101 和 1001（N4(2)）：例子 461267、1002001、1283945</li>
+<li>魔术 B 的步骤和原理（N16）</li>
+<li>分组主定理的统一形式（N4）</li>
+<li>存在性：费马小定理 + 阶（N6），含 −1 的证明</li>
+<li>8.1 节的大表</li>
+<li>循环小数 = 阶（N8）：长除法余数的解释 + 999999 = 7 × 142857</li>
+<li>142857 彩蛋（N9）+ Midy 定理（N10）</li>
+<li>推广到合数（N7）：27、77</li>
+<li>砍个位法（N11）：证明 + 表 + "余数会变"的易错点</li>
+<li>2 和 5、合数拆分（N12、N13），含 4、6、24 的反例</li>
+<li>其他进制（N14）、实际应用 ISBN-10（N18）</li>
+<li>总结：一句话结论 + 2026 的完整表（第 3 节）</li>
+<li>定理总表：课内工具 vs 我们学到的新内容（第 4 节）</li>
+<li>参考资料</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2>11. 展示技巧与排练</h2>
+<ul>
+<li><b>展示是"打广告"，不是上课：</b>讲最有意思的点，证明细节留给完整版。</li>
+<li><b>不要照着 slides 或稿子念</b>，流畅度是评分项。slides 上只放关键式子和例子，话自己说。</li>
+<li><b>魔术排练：</b>每个魔术用不同的数字各练 5 遍以上；准备一个备用例子（观众算错时直接用）；A 要会快速心算数字和，B 要提前确认三位观众都有计算器（手机即可）。</li>
+<li><b>交接：</b>A 的最后一页提出问题，B 的第一页用魔术回答，两人的部分要像一个整体。</li>
+<li><b>计时：</b>两人合计 10 分钟，彩排时用手机计时，每页控制在表里的时间内。</li>
+<li><b>可选 A 档挑战：</b>讲 mod 9 时用"只有 9 个刻度的钟"代替"余数""整除"：钟上走 10 格和走 1 格停在同一个位置，所以"几个 10、几个 100"在钟上都只相当于走"那一位数字"那么多格。</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>12. 可能被问到的问题（准备答案）</h2>
+<table>
+<tr><th style="width:36%">问题</th><th>回答要点</th></tr>
+<tr><td>为什么 2 和 5 没有"数字和"那样的规则？</td><td>因为 10 ≡ 0 (mod 2, 5)，10 不是模 2、5 的单位，没有阶；但正因为 10 ≡ 0，只看末几位就够了（N12）。</td></tr>
+<tr><td>是不是每个数都有整除规则？</td><td>和 10 互素的 d 都有（欧拉定理，N7）；一般的 d 拆成"2 和 5 的幂"×"和 10 互素的部分"，两部分互素，分别判断（N12 + N13）。</td></tr>
+<tr><td>7 的分组规则太麻烦，有实用的方法吗？</td><td>砍个位法 x − 2y（N11），或者三位一组交错（2026 → 24）。</td></tr>
+<tr><td>交错和能从左边开始算吗？</td><td>判断整除可以；算余数不行，数字个数为偶数时符号会反（2026 的例子）。</td></tr>
+<tr><td>为什么 1/7 循环 6 位，1/37 只循环 3 位？</td><td>循环节长度 = 10 的阶（N8）：ord<sub>7</sub>(10) = 6，ord<sub>37</sub>(10) = 3。</td></tr>
+<tr><td>魔术会失败吗？</td><td>魔术 A：观众圈了 0，或打乱后差为 0；所以规则里要求圈非零数字、打乱后的数要不同。魔术 B 不会失败。</td></tr>
+<tr><td>这和密码学有什么关系？</td><td>"阶"和"原根"正是 Diffie–Hellman 和 ElGamal 的核心（Day 14–15）；整除规则的思想也用在校验码里（ISBN-10，N18）。</td></tr>
+<tr><td>为什么分组要从个位开始？</td><td>因为分组对应 n = B<sub>0</sub> + B<sub>1</sub>·10<sup>k</sup> + ⋯，B<sub>0</sub> 必须是最低的 k 位。</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>13. 参考资料与时间线</h2>
+<h3>参考资料（自己阅读后列在完整版最后一页）</h3>
+<ul>
+<li>课程材料：Day 3 同余性质；Day 5 单位与逆元、Bezout；Day 6 Euclid 引理；Day 10–11 CRT；Day 11–12 费马小定理；Day 12–13 欧拉定理；Day 13 阶；Day 14 原根</li>
+<li>Hoffstein, Pipher, Silverman, <i>An Introduction to Mathematical Cryptography</i>（HPS），费马小定理部分（pp. 30–32）</li>
+<li>NTIC（<i>Number Theory: In Context and Interactive</i>），课程 Canvas 上的链接</li>
+<li>Wikipedia 词条：Divisibility rule；Repeating decimal；Multiplicative order；Cyclic number；Midy's theorem；ISBN</li>
+</ul>
+
+<h3>时间线与 checklist</h3>
+<table>
+<tr><th style="width:22%">时间</th><th>要做的</th></tr>
+<tr><td><b>11/2 晚 11:59</b></td><td>两人各自提交 Initial Thoughts 问卷：话题方向 + 组员名字</td></tr>
+<tr><td>11/2 – 11/20</td><td>各自学习自己负责的部分（第 6 或第 7 节）+ 两人一起看第 8 节；记录学习日志（时间、学到什么）</td></tr>
+<tr><td><b>11/20</b></td><td>Project Plan 问卷：组员、进度、计划；写明"展示版 PPT + 完整版 PPT 作为作品"</td></tr>
+<tr><td>11/20 – 12/6</td><td>做两份 PPT；第一次合练</td></tr>
+<tr><td>12/6 – 12/13</td><td>彩排 2–3 次（计时 + 魔术）；检查所有例子</td></tr>
+<tr><td><b>12/13</b></td><td>提交展示版 PPT 和完整版 PPT</td></tr>
+<tr><td>课上</td><td>展示（每人 5 分钟）</td></tr>
+<tr><td><b>12/21</b></td><td>What I learned 问卷（学习日志直接用得上）</td></tr>
+</table>
+
+</body>
+</html>
