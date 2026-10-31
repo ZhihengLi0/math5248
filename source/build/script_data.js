@@ -1,5 +1,5 @@
 // Single source of truth for the spoken script.
-// Used by build_presentation.js (speaker notes) and build_script.js (presentation/speech_script.md).
+// Used by build_presentation.js (speaker notes) and build_script.js (presentation/演讲稿.md).
 // **bold** = said while pointing at the screen.  *italic* = private reminder, not read out.
 
 const SPEAKERS = { A: "Zhiheng", B: "Yueran" };

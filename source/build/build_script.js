@@ -1,11 +1,11 @@
-// Renders presentation/speech_script.md from script_data.js, in the same layout as the
+// Renders presentation/演讲稿.md from script_data.js, in the same layout as the
 // SNOLAB talks (speech_script.md there): per slide, 中文 first, then English; bold = said while
 // pointing at the screen; italic = private reminder.  build_speech_pdf.py turns it into the PDFs.
 const fs = require("fs");
 const path = require("path");
 const { SPEAKERS, SLIDES, QA, GLOSSARY } = require("./script_data");
 
-const OUT = path.join(__dirname, "..", "..", "presentation", "speech_script.md");
+const OUT = path.join(__dirname, "..", "..", "presentation", "演讲稿.md");
 const L = [];
 const p = (...a) => L.push(...a, "");
 

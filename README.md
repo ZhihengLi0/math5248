@@ -15,9 +15,9 @@ Two folders: **`presentation/`** is what we hand in and use in class; **`source/
 
 | Path | What | 说明 |
 |---|---|---|
-| [`presentation/presentation.pptx`](presentation/presentation.pptx) / [`.pdf`](presentation/presentation.pdf) | 10 slides for the in-class talk (5 per person, 5 min each), English. Speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
-| [`presentation/full.pptx`](presentation/full.pptx) / [`.pdf`](presentation/full.pdf) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
-| [`presentation/speech_script.md`](presentation/speech_script.md) / [`.pdf`](presentation/speech_script.pdf) / [`_en.pdf`](presentation/speech_script_en.pdf) | Speaker script in the same layout as the SNOLAB talks: per slide 中文 then English, timing, stage directions, backup numbers for the tricks, likely questions, glossary. `_en.pdf` is English only. | 演讲稿（每页先中文后英文），计时、魔术备用数字、问答、术语表 |
+| [`presentation/PPT演讲版.pptx`](presentation/PPT演讲版.pptx) / [`PDF演讲版.pdf`](presentation/PDF演讲版.pdf) | 10 slides for the in-class talk (5 per person, 5 min each), English. Speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
+| [`presentation/PPT提交版.pptx`](presentation/PPT提交版.pptx) / [`PDF提交版.pdf`](presentation/PDF提交版.pdf) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
+| [`presentation/演讲稿.md`](presentation/演讲稿.md) / [`演讲稿.pdf`](presentation/演讲稿.pdf) / [`演讲稿_英文.pdf`](presentation/演讲稿_英文.pdf) | Speaker script in the same layout as the SNOLAB talks: per slide 中文 then English, timing, stage directions, backup numbers for the tricks, likely questions, glossary. `演讲稿_英文.pdf` is English only. | 演讲稿（每页先中文后英文），计时、魔术备用数字、问答、术语表 |
 | [`source/plan/`](source/plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
 | [`source/verify/check_examples.py`](source/verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
 | [`source/build/`](source/build/) | Scripts that generate both decks, the script and the PDFs (`make_pdf.sh`). | 生成 PPT、讲稿和 PDF 的脚本 |
@@ -40,7 +40,7 @@ npm install                      # pptxgenjs
 export PPTX_SKILL=/path/to/pptx-skill   # folder containing scripts/apply_theme.js
 NODE_PATH=$PWD/node_modules node build_presentation.js   # SLIDE_LANG=bi for English + Chinese on each slide
 NODE_PATH=$PWD/node_modules node build_full.js
-node build_script.js             # presentation/speech_script.md
+node build_script.js             # presentation/演讲稿.md
 ./make_pdf.sh                    # deck PDFs via LibreOffice, script PDFs via headless Chrome
 python3 -I ../verify/check_examples.py
 ```
