@@ -2,6 +2,22 @@
 // Chalkboard look: deep green board, cream chalk, yellow / pink highlights.
 const pptxgen = require("pptxgenjs");
 
+// Slide language. "en" (default) drops every Chinese string; "bi" keeps English + Chinese on each slide.
+const LANG = process.env.SLIDE_LANG || "en";
+const CJK = /[\u3000-\u303f\u3400-\u9fff\uff00-\uffef]/;
+// Cut a string at its first Chinese character and drop the separator before it (" · ", " / ").
+function enOnly(str) {
+  if (LANG !== "en" || typeof str !== "string") return str;
+  const m = CJK.exec(str);
+  if (!m) return str;
+  let out = str.slice(0, m.index).replace(/[\s·/：:]+$/, "");
+  if (!/[A-Za-z]/.test(out)) return ""; // a Chinese-only line (maybe with numbers)
+  // drop a trailing " · 2026 ..." fragment that belonged to the Chinese part
+  const parts = out.split(/\s+[·/]\s+/);
+  if (parts.length > 1 && !/[A-Za-z]/.test(parts[parts.length - 1])) out = out.slice(0, out.lastIndexOf(parts[parts.length - 1])).replace(/[\s·/：:]+$/, "");
+  return out;
+}
+
 const THEME = {
   name: "Chalkboard",
   headFontFace: "Cambria",
@@ -68,6 +84,7 @@ function newPres() {
 // ---------- tiny markup → pptxgenjs runs ----------
 // ^{x} superscript, _{x} subscript, {y:text} yellow, {p:text} pink, {g:green}, {b:bold}
 function runs(str, base = {}) {
+  str = enOnly(str);
   const out = [];
   const push = (text, extra) => { if (text) out.push({ text, options: { ...base, ...extra } }); };
   // find the matching close brace for an opening brace at position i
@@ -110,6 +127,7 @@ function bi(slide, col, items, o) {
   const zhSize = o.zhSize || size - 3;
   const gap = o.gap == null ? 8 : o.gap;
   const all = [];
+  if (LANG === "en") items = items.map((it) => ({ ...it, zh: "" })).filter((it) => enOnly(it.en));
   items.forEach((it, i) => {
     const lastItem = i === items.length - 1;
     const en = resolve(runs(it.en, { fontSize: size, color: enColor, bold: !!it.bold }), col);
@@ -136,6 +154,7 @@ function bi(slide, col, items, o) {
 
 // One-line text with markup.
 function txt(slide, col, str, o) {
+  if (!enOnly(str)) return;
   const rs = resolve(runs(str, { fontSize: o.size || 16, color: o.color || col.chalk, bold: !!o.bold, italic: !!o.italic }), col);
   slide.addText(rs, { x: o.x, y: o.y, w: o.w, h: o.h, align: o.align || "left", valign: o.valign || "middle", isTextBox: true, margin: o.margin == null ? 0 : o.margin, objectName: o.name || "text", fontFace: o.fontFace, charSpacing: o.charSpacing, lineSpacingMultiple: o.lineSpacing });
 }
@@ -254,7 +273,7 @@ function table(slide, col, rows, o) {
   const ink = dark ? col.chalk : col.ink;
   const headFill = dark ? "2A4A3C" : "E6EFE9";
   const data = rows.map((r, ri) => r.map((c, ci) => ({
-    text: c,
+    text: enOnly(c),
     options: {
       fontSize: ri === 0 ? (o.headSize || 12) : (o.size || 12),
       bold: ri === 0 || (o.boldCol != null && ci === o.boldCol),
@@ -268,4 +287,11 @@ function table(slide, col, rows, o) {
   slide.addTable(data, { x: o.x, y: o.y, w: o.w, h: o.h, colW: o.colW, rowH: o.rowH, border: { type: "solid", pt: 0.75, color: dark ? "3E6652" : "C9D6CE" }, objectName: o.name || "table", fontFace: "Calibri" });
 }
 
-module.exports = { THEME, newPres, runs, resolve, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table };
+// Slide title: English, with the Chinese subtitle only in bilingual mode.
+function title(slide, col, en, zh, dark = true) {
+  const parts = [{ text: en, options: {} }];
+  if (LANG !== "en" && zh) parts.push({ text: "  " + zh, options: { fontSize: 17, color: dark ? col.mutedChalk : col.mutedInk, bold: false } });
+  slide.addText(parts, { placeholder: "title" });
+}
+
+module.exports = { LANG, enOnly, title, THEME, newPres, runs, resolve, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table };

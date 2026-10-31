@@ -13,8 +13,8 @@ MATH 5248 final mini project · Fall 2026 · Zhiheng Li & Yueran
 
 | Path | What | 说明 |
 |---|---|---|
-| [`slides/presentation.pptx`](slides/presentation.pptx) | 10 slides for the in-class talk (5 per person, 5 min each). English with Chinese under each line; speaker notes hold the English script. | 课上展示版，每人 5 页，中英并列，备注里有英文讲稿 |
-| [`slides/full.pptx`](slides/full.pptx) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
+| [`slides/presentation.pptx`](slides/presentation.pptx) | 10 slides for the in-class talk (5 per person, 5 min each), all in English; speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
+| [`slides/full.pptx`](slides/full.pptx) | 22-slide full version in English: proofs, every example, the theorem map, references. This is the "product". | 完整版（英文），作为作品提交，可脱离讲解独立阅读 |
 | [`script/presentation_script.md`](script/presentation_script.md) | Spoken script for every slide, English and Chinese, with timing, stage directions, backup numbers for the two tricks, and likely Q&A. | 逐页演讲稿（中英）、计时、魔术备用数字、问答准备 |
 | [`plan/`](plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
 | [`verify/check_examples.py`](verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
@@ -36,7 +36,7 @@ Everything is built on tools from class (congruences, inverses, Bézout, Euclid'
 cd build
 npm install                      # pptxgenjs
 export PPTX_SKILL=/path/to/pptx-skill   # folder containing scripts/apply_theme.js
-NODE_PATH=$PWD/node_modules node build_presentation.js
+NODE_PATH=$PWD/node_modules node build_presentation.js   # SLIDE_LANG=bi for English + Chinese on each slide
 NODE_PATH=$PWD/node_modules node build_full.js
 node build_script.js
 python3 -I ../verify/check_examples.py

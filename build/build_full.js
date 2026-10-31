@@ -1,6 +1,6 @@
 // Full deck (the "product"): readable on its own, with proofs, all examples and the theorem map.
 const path = require("path");
-const { THEME, newPres, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
+const { THEME, newPres, title: titleEn, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 
 const OUT = path.join(__dirname, "..", "slides", "full.pptx");
@@ -9,8 +9,7 @@ async function main() {
   const { pres, col } = newPres();
   const S = pres.ShapeType;
   let n = 0;
-  const title = (s, en, zh, dark = true) =>
-    s.addText([{ text: en + "  ", options: {} }, { text: zh, options: { fontSize: 17, color: dark ? col.mutedChalk : col.mutedInk, bold: false } }], { placeholder: "title" });
+  const title = (s, en, zh, dark = true) => titleEn(s, col, en, zh, dark);
   const board = (sec) => pres.addSlide({ masterName: "BOARD", sectionTitle: sec });
   const paper = (sec) => pres.addSlide({ masterName: "PAPER", sectionTitle: sec });
   const tag = (s, text, x, y, dark = true) => pill(s, pres, col, text, { x, y, w: 1.0, h: 0.28, size: 10, fill: dark ? "3E6652" : "DCE8E0", color: dark ? col.chalk : col.board, r: 0.14 });
@@ -28,7 +27,7 @@ async function main() {
     { en: "Divisibility shortcuts, and the modular arithmetic hiding behind them", zh: "整除速判规则，以及藏在背后的模运算" },
     { en: "Full version: proofs, every example, and the theorem map", zh: "完整版：含证明、全部例子和定理总表" },
   ], { x: 5.0, y: 2.2, w: 4.5, h: 1.3, size: 14, zhSize: 11, gap: 5 });
-  bi(s, col, [{ en: "Zhiheng Li  ·  Yueran", zh: "MATH 5248 · Fall 2026 · final mini project" }], { x: 5.0, y: 3.45, w: 4.5, h: 0.7, size: 15 });
+  bi(s, col, [{ en: "Zhiheng Li  ·  Yueran" }, { en: "MATH 5248 · Fall 2026 · final mini project" }], { x: 5.0, y: 3.45, w: 4.5, h: 0.7, size: 15 });
   pill(s, pres, col, "Everything here was worked out by hand and then checked with a small script: github.com/ZhihengLi0/math5248", { x: 0.5, y: 4.4, w: 9.0, h: 0.55, size: 12, fill: "2A4A3C", color: col.chalk, bold: false });
 
   // ───────── 2 questions + roadmap ─────────
@@ -50,8 +49,8 @@ async function main() {
   txt(s, col, "roadmap  路线", { x: 6.15, y: 1.32, w: 3.2, h: 0.3, size: 11, color: col.mutedChalk });
   bi(s, col, [
     { en: "{y:1}  Foundation: 10 ≡ ? (mod d)", zh: "共同基础" },
-    { en: "{y:2}  Family 10^{k} ≡ 1: digit sum, 99, 999", zh: "10 ≡ 1 家族（Zhiheng）" },
-    { en: "{y:3}  Family 10^{k} ≡ −1: 11, 101, 1001", zh: "10 ≡ −1 家族（Yueran）" },
+    { en: "{y:2}  Family 10^{k} ≡ 1: digit sum, 99, 999 (Zhiheng)", zh: "10 ≡ 1 家族" },
+    { en: "{y:3}  Family 10^{k} ≡ −1: 11, 101, 1001 (Yueran)", zh: "10 ≡ −1 家族" },
     { en: "{y:4}  Why rules always exist: Fermat, order, 1/p", zh: "一般结论：费马、阶、循环小数" },
     { en: "{y:5}  Extras: chop-a-digit, 2 and 5, ISBN", zh: "补充：砍个位法、2 和 5、ISBN" },
   ], { x: 6.15, y: 1.65, w: 3.2, h: 3.3, size: 12, zhSize: 10, gap: 5 });
@@ -68,8 +67,8 @@ async function main() {
     ["10 ≡ 1", "10ⁱ ≡ 1", "add the digits · 各位相加", "3, 9"],
     ["10 ≡ −1", "10ⁱ ≡ (−1)ⁱ", "alternate the digits · 正负交替", "11"],
     ["10 ≡ 0", "10ⁱ ≡ 0 (i ≥ 1)", "last digit only · 只看个位", "2, 5"],
-    ["10ᵏ ≡ 1", "treat 10ᵏ as one 'digit'", "add k-digit chunks · k 位一组相加", "99, 999, 37"],
-    ["10ᵏ ≡ −1", "same", "alternate k-digit chunks · k 位交错", "101, 1001, 7, 13"],
+    ["10ᵏ ≡ 1", "treat 10ᵏ as one 'digit'", "add k-digit chunks · 逐组相加", "99, 999, 37"],
+    ["10ᵏ ≡ −1", "same", "alternate k-digit chunks · 逐组交错", "101, 1001, 7, 13"],
   ], { x: 0.5, y: 2.75, w: 9.0, h: 2.3, colW: [1.5, 2.4, 3.3, 1.8], dark: false, size: 12 });
 
   // ───────── 4 digit sum theorem ─────────
@@ -380,7 +379,7 @@ async function main() {
     { en: "T7 Chinese remainder theorem (Day 10–11)", zh: "中国剩余定理 → 合数 d" },
     { en: "T8 Fermat's little theorem (Day 11–12)", zh: "费马小定理 → 存在性" },
     { en: "T9 Euler's theorem; T10 order; T11 primitive roots (Day 12–14)", zh: "欧拉定理；阶；原根" },
-  ], { x: 0.5, y: 1.45, w: 4.3, h: 3.6, size: 11, zhSize: 10, dark: false, gap: 4 });
+  ], { x: 0.5, y: 1.45, w: 4.3, h: 3.6, size: 13, zhSize: 10, dark: false, gap: 9 });
   txt(s, col, "new in this project  课外（本项目新学）", { x: 5.2, y: 1.15, w: 4.3, h: 0.3, size: 12, bold: true, color: col.pink });
   bi(s, col, [
     { en: "N2 / N3 digit sum and alternating sum, with remainders", zh: "数字和、交错和（含余数）" },
@@ -389,7 +388,7 @@ async function main() {
     { en: "N8 / N9 / N10 period of 1/d, cyclic 142857, Midy", zh: "循环节 = 阶；循环数；Midy 定理" },
     { en: "N11 chop-a-digit rule via 10⁻¹; N12 / N13 powers of 2, 5 and coprime splitting", zh: "砍个位法；2 和 5；互素拆分" },
     { en: "N14 other bases; N15 / N16 the two tricks; N18 ISBN-10", zh: "其他进制；两个魔术；ISBN-10" },
-  ], { x: 5.2, y: 1.45, w: 4.3, h: 3.6, size: 11, zhSize: 10, dark: false, gap: 4 });
+  ], { x: 5.2, y: 1.45, w: 4.3, h: 3.6, size: 13, zhSize: 10, dark: false, gap: 9 });
 
   // ───────── 22 references ─────────
   s = board("Wrap-up");

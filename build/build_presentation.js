@@ -1,6 +1,6 @@
 // Presentation deck: 10 slides, 5 per speaker, ~5 minutes each.
 const path = require("path");
-const { THEME, newPres, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
+const { THEME, newPres, title, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 const { SLIDES } = require("./script_data");
 
@@ -25,15 +25,15 @@ async function main() {
     { en: "Divisibility shortcuts, and the modular arithmetic hiding behind them", zh: "整除速判规则，以及藏在背后的模运算" },
   ], { x: 5.0, y: 2.2, w: 4.5, h: 1.0, size: 15 });
   bi(s, col, [
-    { en: "Zhiheng Li  ·  Yueran", zh: "MATH 5248 · Fall 2026 · final mini project" },
+    { en: "Zhiheng Li  ·  Yueran" }, { en: "MATH 5248 · Fall 2026 · final mini project" },
   ], { x: 5.0, y: 3.2, w: 4.5, h: 0.7, size: 15 });
 
-  pill(s, pres, col, "Is 2026 divisible by 9?   /   2026 能被 9 整除吗？", { x: 0.5, y: 4.3, w: 9.0, h: 0.62, size: 18, fill: col.yellow });
+  pill(s, pres, col, "Is 2026 divisible by 9?   ·   2026 能被 9 整除吗？", { x: 0.5, y: 4.3, w: 9.0, h: 0.62, size: 18, fill: col.yellow });
   s.addNotes(notes.A1);
 
   // ───────────────────────── A2  magic: vanishing digit ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Zhiheng" });
-  s.addText([{ text: "Magic trick 1: the vanishing digit  ", options: {} }, { text: "魔术一：消失的数字", options: { fontSize: 18, color: col.mutedChalk, bold: false } }], { placeholder: "title" });
+  title(s, col, "Magic trick 1: the vanishing digit", "魔术一：消失的数字", true);
   const steps = [
     { en: "Think of a 4-digit number (not all digits the same).", zh: "心里想一个四位数（各位不能全相同）" },
     { en: "Shuffle its digits into a new number.", zh: "把数字打乱，拼成另一个数" },
@@ -69,7 +69,7 @@ async function main() {
 
   // ───────────────────────── A3  clock ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Zhiheng" });
-  s.addText([{ text: "A clock with only 9 marks  ", options: {} }, { text: "只有 9 个刻度的钟", options: { fontSize: 18, color: col.mutedChalk, bold: false } }], { placeholder: "title" });
+  title(s, col, "A clock with only 9 marks", "只有 9 个刻度的钟", true);
   clock9(s, pres, col, 2.1, 3.0, 1.55, { highlight: [1, 9], hand: 1 });
   txt(s, col, "walk {y:10} steps = walk {y:1} step", { x: 0.3, y: 4.68, w: 3.6, h: 0.3, size: 13, color: col.chalk, align: "center" });
   txt(s, col, "走 10 格 = 走 1 格；100 格、1000 格也一样", { x: 0.3, y: 4.95, w: 3.6, h: 0.28, size: 11, color: col.mutedChalk, align: "center" });
@@ -87,7 +87,7 @@ async function main() {
 
   // ───────────────────────── A4  99 / 999 ─────────────────────────
   s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Zhiheng" });
-  s.addText([{ text: "Bigger chunks: 99 and 999  ", options: {} }, { text: "两位一组、三位一组", options: { fontSize: 18, color: col.mutedInk, bold: false } }], { placeholder: "title" });
+  title(s, col, "Bigger chunks: 99 and 999", "两位一组、三位一组", false);
 
   formulaBox(s, pres, col, "100 = 99 + 1   ⇒   {g:100 ≡ 1 (mod 99)}", { x: 0.5, y: 1.25, w: 4.3, h: 0.55, size: 17, dark: false });
   bi(s, col, [{ en: "add 2-digit chunks → remainder mod 99 (and 11, 33)", zh: "两位一组相加 → 除以 99 的余数（顺便 11、33）" }], { x: 0.5, y: 1.88, w: 4.3, h: 0.7, size: 13, zhSize: 11, dark: false });
@@ -126,13 +126,13 @@ async function main() {
   ], { x: 5.9, y: 2.25, w: 3.8, h: 1.3, size: 15, zhSize: 12, align: "center" });
 
   formulaBox(s, pres, col, "What if   {p:10^{k} ≡ −1}   instead?", { x: 0.6, y: 3.7, w: 8.8, h: 0.7, size: 26, bold: true });
-  txt(s, col, "如果 10 的某个次方等于 −1 呢？  →  Yueran", { x: 0.6, y: 4.45, w: 8.8, h: 0.4, size: 14, color: col.mutedChalk, align: "center" });
+  txt(s, col, "over to Yueran  ·  如果 10 的某个次方等于 −1 呢？", { x: 0.6, y: 4.45, w: 8.8, h: 0.4, size: 14, color: col.mutedChalk, align: "center" });
   s.addNotes(notes.A5);
 
   // ───────────────────────── B1  magic: 1001 ─────────────────────────
   pres.addSection({ title: "Yueran" });
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  s.addText([{ text: "Magic trick 2: 1001 brings it back  ", options: {} }, { text: "魔术二：1001 回到原数", options: { fontSize: 18, color: col.mutedChalk, bold: false } }], { placeholder: "title" });
+  title(s, col, "Magic trick 2: 1001 brings it back", "魔术二：1001 回到原数", true);
 
   // flow: 572 → 572572 → ÷7 → 81796 → ÷11 → 7436 → ÷13 → 572
   const flow = [
@@ -166,7 +166,7 @@ async function main() {
 
   // ───────────────────────── B2  reveal ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  s.addText([{ text: "Why it works: 1000 acts like −1  ", options: {} }, { text: "揭秘：1000 就是 −1", options: { fontSize: 18, color: col.mutedChalk, bold: false } }], { placeholder: "title" });
+  title(s, col, "Why it works: 1000 acts like −1", "揭秘：1000 就是 −1", true);
   formulaBox(s, pres, col, "abcabc = abc·1000 + abc = abc · 1001 = abc · {p:7 · 11 · 13}", { x: 0.5, y: 1.25, w: 9.0, h: 0.6, size: 20 });
 
   // left: one digit at a time (mod 11)
@@ -190,7 +190,7 @@ async function main() {
 
   // ───────────────────────── B3  one idea ─────────────────────────
   s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Yueran" });
-  s.addText([{ text: "One idea, every rule  ", options: {} }, { text: "一个想法，所有规则", options: { fontSize: 18, color: col.mutedInk, bold: false } }], { placeholder: "title" });
+  title(s, col, "One idea, every rule", "一个想法，所有规则", false);
   formulaBox(s, pres, col, "find k with  10^{k} ≡ {g:+1}  or  {p:−1}   (mod d)", { x: 0.5, y: 1.2, w: 9.0, h: 0.6, size: 22, dark: false, bold: true });
   bi(s, col, [
     { en: "{g:+1}  →  cut into k-digit chunks from the right and {g:add} them", zh: "+1 → 从个位起 k 位一组，相加" },
@@ -211,7 +211,7 @@ async function main() {
 
   // ───────────────────────── B4  Fermat, order, 142857 ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  s.addText([{ text: "Why every prime gets a rule  ", options: {} }, { text: "为什么一定有规则", options: { fontSize: 18, color: col.mutedChalk, bold: false } }], { placeholder: "title" });
+  title(s, col, "Why every prime gets a rule", "为什么一定有规则", true);
   formulaBox(s, pres, col, "Fermat:  10^{p−1} ≡ 1 (mod p)   for every prime p ≠ 2, 5", { x: 0.5, y: 1.2, w: 5.3, h: 0.55, size: 17 });
   bi(s, col, [
     { en: "So (p − 1)-digit chunks always work.", zh: "所以 (p − 1) 位一组一定可以" },
@@ -245,7 +245,7 @@ async function main() {
     { en: "In the full deck: chop-the-last-digit rule for 7 (x − 2y), why ISBN uses 11, Midy's 142 + 857 = 999, and every proof.", zh: "完整版里还有：7 的砍个位法、ISBN 为什么用 11、Midy 定理、以及每一步的证明" },
     { en: "github.com/ZhihengLi0/math5248", zh: "" },
   ], { x: 0.8, y: 3.58, w: 8.4, h: 0.85, size: 13, zhSize: 11, gap: 3 });
-  txt(s, col, "Thank you  ·  谢谢   ·   now go try the 1001 trick on a friend", { x: 0.6, y: 4.7, w: 8.8, h: 0.45, size: 16, color: col.yellow, align: "center" });
+  txt(s, col, "Thank you. Now go try the 1001 trick on a friend.  ·  谢谢", { x: 0.6, y: 4.7, w: 8.8, h: 0.45, size: 16, color: col.yellow, align: "center" });
   s.addNotes(notes.B5);
 
   await pres.writeFile({ fileName: OUT });
