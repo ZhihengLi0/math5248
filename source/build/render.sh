@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Render a .pptx to slide-NN.jpg images for visual QA, using Microsoft PowerPoint (macOS).
-# usage: ./render.sh ../slides/presentation.pptx outdir
+# usage: ./render.sh ../../presentation/presentation.pptx outdir
 set -e
 setopt +o nomatch
 PPTX="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"

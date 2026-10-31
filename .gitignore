@@ -1,7 +1,6 @@
 node_modules/
-build/package-lock.json
-*.pdf
-!plan/*.pdf
+source/build/package-lock.json
+presentation/presentation_script.html
 slide-*.jpg
 .DS_Store
 ~$*

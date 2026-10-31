@@ -11,14 +11,16 @@ MATH 5248 final mini project · Fall 2026 · Zhiheng Li & Yueran
 
 ## What is in here · 文件说明
 
+Two folders: **`presentation/`** is what we hand in and use in class; **`source/`** is everything used to make it.
+
 | Path | What | 说明 |
 |---|---|---|
-| [`slides/presentation.pptx`](slides/presentation.pptx) | 10 slides for the in-class talk (5 per person, 5 min each), all in English; speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
-| [`slides/full.pptx`](slides/full.pptx) | 22-slide full version in English: proofs, every example, the theorem map, references. This is the "product". | 完整版（英文），作为作品提交，可脱离讲解独立阅读 |
-| [`script/presentation_script.md`](script/presentation_script.md) | Spoken script for every slide, English and Chinese, with timing, stage directions, backup numbers for the two tricks, and likely Q&A. | 逐页演讲稿（中英）、计时、魔术备用数字、问答准备 |
-| [`plan/`](plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
-| [`verify/check_examples.py`](verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
-| [`build/`](build/) | Scripts that generate both decks and the script file. | 生成 PPT 和讲稿的脚本 |
+| [`presentation/presentation.pptx`](presentation/presentation.pptx) / [`.pdf`](presentation/presentation.pdf) | 10 slides for the in-class talk (5 per person, 5 min each), English. Speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
+| [`presentation/full.pptx`](presentation/full.pptx) / [`.pdf`](presentation/full.pdf) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
+| [`presentation/presentation_script.md`](presentation/presentation_script.md) / [`.pdf`](presentation/presentation_script.pdf) | Spoken script for every slide, English and Chinese, with timing, stage directions, backup numbers for the two tricks, and likely Q&A. | 逐页演讲稿（中英）、计时、魔术备用数字、问答准备 |
+| [`source/plan/`](source/plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
+| [`source/verify/check_examples.py`](source/verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
+| [`source/build/`](source/build/) | Scripts that generate both decks, the script file and the PDFs. | 生成 PPT、讲稿和 PDF 的脚本 |
 
 ## The talk in one minute · 一分钟版
 
@@ -33,16 +35,17 @@ Everything is built on tools from class (congruences, inverses, Bézout, Euclid'
 ## Rebuild · 重新生成
 
 ```bash
-cd build
+cd source/build
 npm install                      # pptxgenjs
 export PPTX_SKILL=/path/to/pptx-skill   # folder containing scripts/apply_theme.js
 NODE_PATH=$PWD/node_modules node build_presentation.js   # SLIDE_LANG=bi for English + Chinese on each slide
 NODE_PATH=$PWD/node_modules node build_full.js
-node build_script.js
+node build_script.js             # presentation_script.md (+ .html for the PDF)
+./export_pdf.sh                  # PDFs via LibreOffice
 python3 -I ../verify/check_examples.py
 ```
 
-`build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `build/script_data.js` is the single source for the spoken script and the speaker notes.
+`source/build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `source/build/script_data.js` is the single source for the spoken script and the speaker notes. The PDFs are rendered by LibreOffice, so fonts differ slightly from PowerPoint; the `.pptx` files are the originals.
 
 ## Timeline · 时间线
 
@@ -51,6 +54,6 @@ python3 -I ../verify/check_examples.py
 | 11/2 | Initial Thoughts survey |
 | 11/20 | Project Plan survey (state: presentation deck + full deck as the product) |
 | 11/20 – 12/6 | Rehearsal 1 with both tricks, timed |
-| 12/6 – 12/13 | Rehearsals 2–3; re-run `verify/check_examples.py` after any change to the examples |
+| 12/6 – 12/13 | Rehearsals 2–3; re-run `source/verify/check_examples.py` after any change to the examples |
 | 12/13 | Submit both decks |
 | 12/21 | "What I learned" survey |

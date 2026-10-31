@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { SPEAKERS, SLIDES, QA } = require("./script_data");
 
-const OUT = path.join(__dirname, "..", "script", "presentation_script.md");
+const OUT = path.join(__dirname, "..", "..", "presentation", "presentation_script.md");
 const L = [];
 const p = (...a) => L.push(...a, "");
 
@@ -39,3 +39,27 @@ L.push("");
 
 fs.writeFileSync(OUT, L.join("\n"));
 console.log("wrote", OUT);
+
+// Also an HTML copy (LibreOffice turns it into the PDF in export_pdf.sh).
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/\[(.+?)\]\((.+?)\)/g, "$1");
+const H = [];
+let inList = false, inTable = false;
+const closeAll = () => { if (inList) { H.push("</ul>"); inList = false; } if (inTable) { H.push("</table>"); inTable = false; } };
+for (const line of L) {
+  if (/^# /.test(line)) { closeAll(); H.push(`<h1>${inline(line.slice(2))}</h1>`); }
+  else if (/^## /.test(line)) { closeAll(); H.push(`<h2>${inline(line.slice(3))}</h2>`); }
+  else if (/^- /.test(line)) { if (!inList) { closeAll(); H.push("<ul>"); inList = true; } H.push(`<li>${inline(line.slice(2))}</li>`); }
+  else if (/^> /.test(line)) { closeAll(); H.push(`<p class="dir">${inline(line.slice(2))}</p>`); }
+  else if (/^\|/.test(line)) { if (/^\|---/.test(line)) continue; if (!inTable) { closeAll(); H.push("<table>"); inTable = true; } const cells = line.split("|").slice(1, -1).map((c) => inline(c.trim())); H.push("<tr>" + cells.map((c) => `<td>${c}</td>`).join("") + "</tr>"); }
+  else if (line.trim() === "") { closeAll(); }
+  else { closeAll(); H.push(`<p>${inline(line)}</p>`); }
+}
+closeAll();
+const html = `<!doctype html><html><head><meta charset="utf-8"><title>Presentation script</title>
+<style>body{font-family:"Helvetica Neue",Helvetica,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11pt;line-height:1.45;margin:1in}
+h1{font-size:18pt}h2{font-size:14pt;margin-top:18pt;border-bottom:1px solid #999;padding-bottom:2pt}
+p{margin:4pt 0}.dir{color:#555;font-style:italic}code{font-family:Menlo,monospace}
+table{border-collapse:collapse}td{border:1px solid #bbb;padding:2pt 8pt}</style></head><body>${H.join("\n")}</body></html>`;
+fs.writeFileSync(OUT.replace(/\.md$/, ".html"), html);
+console.log("wrote", OUT.replace(/\.md$/, ".html"));

@@ -4,7 +4,7 @@ const { THEME, newPres, title, bi, txt, blocks, clock9, cycle, signChain, pill, 
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 const { SLIDES } = require("./script_data");
 
-const OUT = path.join(__dirname, "..", "slides", "presentation.pptx");
+const OUT = path.join(__dirname, "..", "..", "presentation", "presentation.pptx");
 const notes = Object.fromEntries(SLIDES.map((s) => [s.id, s.en]));
 
 async function main() {
