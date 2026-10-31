@@ -17,10 +17,10 @@ Two folders: **`presentation/`** is what we hand in and use in class; **`source/
 |---|---|---|
 | [`presentation/presentation.pptx`](presentation/presentation.pptx) / [`.pdf`](presentation/presentation.pdf) | 10 slides for the in-class talk (5 per person, 5 min each), English. Speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
 | [`presentation/full.pptx`](presentation/full.pptx) / [`.pdf`](presentation/full.pdf) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
-| [`presentation/presentation_script.md`](presentation/presentation_script.md) / [`.pdf`](presentation/presentation_script.pdf) | Spoken script for every slide, English and Chinese, with timing, stage directions, backup numbers for the two tricks, and likely Q&A. | 逐页演讲稿（中英）、计时、魔术备用数字、问答准备 |
+| [`presentation/speech_script.md`](presentation/speech_script.md) / [`.pdf`](presentation/speech_script.pdf) / [`_en.pdf`](presentation/speech_script_en.pdf) | Speaker script in the same layout as the SNOLAB talks: per slide 中文 then English, timing, stage directions, backup numbers for the tricks, likely questions, glossary. `_en.pdf` is English only. | 演讲稿（每页先中文后英文），计时、魔术备用数字、问答、术语表 |
 | [`source/plan/`](source/plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
 | [`source/verify/check_examples.py`](source/verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
-| [`source/build/`](source/build/) | Scripts that generate both decks, the script file and the PDFs. | 生成 PPT、讲稿和 PDF 的脚本 |
+| [`source/build/`](source/build/) | Scripts that generate both decks, the script and the PDFs (`make_pdf.sh`). | 生成 PPT、讲稿和 PDF 的脚本 |
 
 ## The talk in one minute · 一分钟版
 
@@ -40,12 +40,12 @@ npm install                      # pptxgenjs
 export PPTX_SKILL=/path/to/pptx-skill   # folder containing scripts/apply_theme.js
 NODE_PATH=$PWD/node_modules node build_presentation.js   # SLIDE_LANG=bi for English + Chinese on each slide
 NODE_PATH=$PWD/node_modules node build_full.js
-node build_script.js             # presentation_script.md (+ .html for the PDF)
-./export_pdf.sh                  # PDFs via LibreOffice
+node build_script.js             # presentation/speech_script.md
+./make_pdf.sh                    # deck PDFs via LibreOffice, script PDFs via headless Chrome
 python3 -I ../verify/check_examples.py
 ```
 
-`source/build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `source/build/script_data.js` is the single source for the spoken script and the speaker notes. The PDFs are rendered by LibreOffice, so fonts differ slightly from PowerPoint; the `.pptx` files are the originals.
+`source/build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `source/build/script_data.js` is the single source for the spoken script and the speaker notes. `build_speech_pdf.py` is the same renderer used for the SNOLAB speech scripts. The deck PDFs are rendered by LibreOffice, so fonts differ slightly from PowerPoint; the `.pptx` files are the originals.
 
 ## Timeline · 时间线
 

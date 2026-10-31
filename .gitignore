@@ -1,6 +1,6 @@
 node_modules/
 source/build/package-lock.json
-presentation/presentation_script.html
+presentation/speech_script*.html
 slide-*.jpg
 .DS_Store
 ~$*
