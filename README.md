@@ -15,8 +15,9 @@ Two folders: **`presentation/`** is what we hand in and use in class; **`source/
 
 | Path | What | 说明 |
 |---|---|---|
-| [`presentation/PPT演讲版.pptx`](presentation/PPT演讲版.pptx) / [`PDF演讲版.pdf`](presentation/PDF演讲版.pdf) | 10 slides for the in-class talk (5 per person, 5 min each), English. Speaker notes hold the English script. | 课上展示版，每人 5 页，全英文，备注里有英文讲稿 |
-| [`presentation/PPT提交版.pptx`](presentation/PPT提交版.pptx) / [`PDF提交版.pdf`](presentation/PDF提交版.pdf) | 22-slide full version: proofs, every example, the theorem map, references. This is the "product". | 完整版，作为作品提交，可脱离讲解独立阅读 |
+| [`presentation/Worksheet提交版.pdf`](presentation/Worksheet提交版.pdf) | **The product.** Two-page worksheet handed out in class: page 1 the two tricks with blanks, page 2 the principles, theorems and proofs. | 提交的作品：两页 worksheet，第 1 页课上跟着做，第 2 页原理和证明 |
+| [`presentation/PPT演讲版.pptx`](presentation/PPT演讲版.pptx) / [`PDF演讲版.pdf`](presentation/PDF演讲版.pdf) | 9 slides for the in-class talk (Zhiheng 1–5, Yueran 6–9, 555 s), English. Speaker notes hold the English script. | 课上演讲版，9 页，全英文 |
+| [`presentation/PPT完整版.pptx`](presentation/PPT完整版.pptx) / [`PDF完整版.pdf`](presentation/PDF完整版.pdf) | 22-slide full version: every proof and example, the theorem map, references. Linked from the worksheet. | 完整版，所有证明和例子，worksheet 上给链接 |
 | [`presentation/演讲稿.md`](presentation/演讲稿.md) / [`演讲稿.pdf`](presentation/演讲稿.pdf) / [`演讲稿_英文.pdf`](presentation/演讲稿_英文.pdf) | Speaker script in the same layout as the SNOLAB talks: per slide 中文 then English, timing, stage directions, backup numbers for the tricks, likely questions, glossary. `演讲稿_英文.pdf` is English only. | 演讲稿（每页先中文后英文），计时、魔术备用数字、问答、术语表 |
 | [`source/plan/`](source/plan/) | The original project plan (HTML + PDF). | 原始项目方案 |
 | [`source/verify/check_examples.py`](source/verify/check_examples.py) | Checks every number used in the slides (factorizations, orders, remainders of 2026, Midy, ISBN, and an exhaustive test of the vanishing-digit trick). | 核对脚本：所有例子逐一验算 |
@@ -41,19 +42,19 @@ export PPTX_SKILL=/path/to/pptx-skill   # folder containing scripts/apply_theme.
 NODE_PATH=$PWD/node_modules node build_presentation.js   # SLIDE_LANG=bi for English + Chinese on each slide
 NODE_PATH=$PWD/node_modules node build_full.js
 node build_script.js             # presentation/演讲稿.md
-./make_pdf.sh                    # deck PDFs via LibreOffice, script PDFs via headless Chrome
+./make_pdf.sh                    # deck PDFs via LibreOffice; worksheet and script PDFs via headless Chrome
 python3 -I ../verify/check_examples.py
 ```
 
-`source/build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `source/build/script_data.js` is the single source for the spoken script and the speaker notes. `build_speech_pdf.py` is the same renderer used for the SNOLAB speech scripts. The deck PDFs are rendered by LibreOffice, so fonts differ slightly from PowerPoint; the `.pptx` files are the originals.
+`source/build/build_worksheet.js` writes the worksheet. `source/build/theme.js` holds the colours, layouts and the hand-drawn diagrams (9-mark clock, digit blocks, remainder cycle, sign chain). `source/build/script_data.js` is the single source for the spoken script and the speaker notes. `build_speech_pdf.py` is the same renderer used for the SNOLAB speech scripts. The deck PDFs are rendered by LibreOffice, so fonts differ slightly from PowerPoint; the `.pptx` files are the originals.
 
 ## Timeline · 时间线
 
 | Date | Item |
 |---|---|
 | 11/2 | Initial Thoughts survey |
-| 11/20 | Project Plan survey (state: presentation deck + full deck as the product) |
+| 11/20 | Project Plan survey (product: the two-page worksheet; full deck on GitHub) |
 | 11/20 – 12/6 | Rehearsal 1 with both tricks, timed |
 | 12/6 – 12/13 | Rehearsals 2–3; re-run `source/verify/check_examples.py` after any change to the examples |
-| 12/13 | Submit both decks |
+| 12/13 | Submit the worksheet and the slides |
 | 12/21 | "What I learned" survey |

@@ -64,7 +64,7 @@ for ln in lines:
             if CJK.search(ln):
                 ln = None
         elif ln.startswith("# "):
-            ln = "# Speaker Script — " + ln.split("— ", 1)[-1]
+            ln = "# Speaker Script · " + ln.split(" · ", 1)[-1]
         elif ln.startswith("English: "):
             ln = ln[len("English: "):]
         elif ln.startswith("*") and not ln.startswith("**"):

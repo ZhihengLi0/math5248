@@ -3,7 +3,7 @@ const path = require("path");
 const { THEME, newPres, title: titleEn, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 
-const OUT = path.join(__dirname, "..", "..", "presentation", "PPT提交版.pptx");
+const OUT = path.join(__dirname, "..", "..", "presentation", "PPT完整版.pptx");
 
 async function main() {
   const { pres, col } = newPres();

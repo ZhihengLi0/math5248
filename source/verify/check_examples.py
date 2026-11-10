@@ -30,6 +30,11 @@ isbn=[0,3,0,6,4,0,6,1,5,2]; chk("ISBN",sum((10-i)*x for i,x in enumerate(isbn))=
 chk("base8",oct(100)=="0o144" and 100%7==2 and 100%9==1)
 chk("x11",36*11==396 and 75*11==825 and 123*11==1353)
 chk("magic examples",7425-5274==2151 and 8317-1378==6939 and 831-138==693)
+chk("phi(27)=18, ord27=3", sum(1 for k in range(1,27) if k%3)==18 and order(10,27)==3)
+chk("d=33: ord 2 but 10 != -1", order(10,33)==2 and 10%33!=32)
+chk("205 chain", 205205//7==29315 and 29315//11==2665 and 2665//13==205 and 205205%1001==0)
+chk("7452=9*828, 2026 mod 37", 7452==9*828 and 2026%37==28)
+chk("1/13 period", str(10**6//13).zfill(6)=="076923" and order(10,13)==6)
 # magic A exhaustive: every 4-digit n, every permutation != n, every nonzero digit of diff hidden
 import itertools
 bad=0

@@ -1,6 +1,6 @@
-// Presentation deck: 10 slides, 5 per speaker, ~5 minutes each.
+// Presentation deck: 9 slides. Zhiheng 1-5 (10 ≡ 1, trick 1), Yueran 6-9 (trick 2, the general result).
 const path = require("path");
-const { THEME, newPres, title, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
+const { THEME, newPres, title, bi, txt, blocks, clock9, cycle, pill, formulaBox } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 const { SLIDES } = require("./script_data");
 
@@ -42,7 +42,7 @@ async function main() {
     { en: "Read me the other digits, in any order.", zh: "其余数字按任意顺序念给我" },
   ];
   steps.forEach((st, i) => {
-    const y = 1.25 + i * 0.74;
+    const y = 1.25 + i * 0.64;
     s.addShape(S.ellipse, { x: 0.5, y: y + 0.04, w: 0.42, h: 0.42, fill: { color: col.yellow }, line: { color: col.yellow, width: 0 }, objectName: "step-dot" });
     s.addText(String(i + 1), { x: 0.5, y: y + 0.04, w: 0.42, h: 0.42, fontSize: 16, bold: true, color: col.board, align: "center", valign: "middle", isTextBox: true, margin: 0, objectName: "step-num" });
     bi(s, col, [st], { x: 1.08, y, w: 4.6, h: 0.7, size: 15, zhSize: 12 });
@@ -64,7 +64,8 @@ async function main() {
     { en: "They read: 2, 1, 1  →  sum 4", zh: "念出 2、1、1，和是 4" },
     { en: "4 needs {y:5} to reach 9. The hidden digit is {y:5}.", zh: "4 补到 9 还差 5，藏的就是 5" },
     { en: "If the sum is already a multiple of 9, the answer is 9.", zh: "和本身是 9 的倍数时，答案是 9" },
-  ], { x: 6.1, y: 2.85, w: 3.5, h: 2.1, size: 13, zhSize: 11, gap: 5 });
+  ], { x: 6.1, y: 2.85, w: 3.5, h: 1.55, size: 13, zhSize: 11, gap: 5 });
+  pill(s, pres, col, "Write along in box 1 of your worksheet", { x: 0.5, y: 4.55, w: 9.0, h: 0.45, size: 14, fill: col.yellow });
   s.addNotes(notes.A2);
 
   // ───────────────────────── A3  clock ─────────────────────────
@@ -85,29 +86,21 @@ async function main() {
   ], { x: 4.3, y: 3.15, w: 5.2, h: 2.0, size: 14, zhSize: 11, gap: 5 });
   s.addNotes(notes.A3);
 
-  // ───────────────────────── A4  99 / 999 ─────────────────────────
+  // ───────────────────────── A4  999 = 27 × 37 ─────────────────────────
   s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Zhiheng" });
-  title(s, col, "Bigger chunks: 99 and 999", "两位一组、三位一组", false);
+  title(s, col, "Same idea, bigger chunks", "三位一组", false);
+  formulaBox(s, pres, col, "1000 = 999 + 1   ⇒   {g:1000 ≡ 1 (mod 999)},     999 = {g:27 × 37}", { x: 0.5, y: 1.25, w: 9.0, h: 0.6, size: 20, dark: false });
+  bi(s, col, [{ en: "So cut a number into three-digit chunks from the right and add them. That tests 27 and 37.", zh: "从个位起三位一组相加，就能判断 27 和 37" }], { x: 0.5, y: 2.0, w: 9.0, h: 0.5, size: 15, zhSize: 12, dark: false });
 
-  formulaBox(s, pres, col, "100 = 99 + 1   ⇒   {g:100 ≡ 1 (mod 99)}", { x: 0.5, y: 1.25, w: 4.3, h: 0.55, size: 17, dark: false });
-  bi(s, col, [{ en: "add 2-digit chunks → remainder mod 99 (and 11, 33)", zh: "两位一组相加 → 除以 99 的余数（顺便 11、33）" }], { x: 0.5, y: 1.88, w: 4.3, h: 0.7, size: 13, zhSize: 11, dark: false });
-  const b99 = blocks(s, pres, col, [{ text: "12", fill: col.yellow }, { text: "34", fill: col.green }, { text: "53", fill: col.yellow }], { x: 0.5, y: 2.6, size: 18, h: 0.45, gap: 0.1 });
-  txt(s, col, "12 + 34 + 53 = 99 ✓  so 99 | 123453", { x: b99.x2 + 0.15, y: 2.6, w: 4.8 - b99.x2 - 0.15, h: 0.45, size: 13, color: col.ink });
-
-  formulaBox(s, pres, col, "1000 = 999 + 1,   999 = {g:27 × 37}", { x: 5.2, y: 1.25, w: 4.3, h: 0.55, size: 17, dark: false });
-  bi(s, col, [{ en: "add 3-digit chunks → tests 27 and 37", zh: "三位一组相加 → 判断 27 和 37" }], { x: 5.2, y: 1.88, w: 4.3, h: 0.7, size: 13, zhSize: 11, dark: false });
-  const b999 = blocks(s, pres, col, [{ text: "45", fill: col.yellow }, { text: "658", fill: col.green }], { x: 5.2, y: 2.6, size: 18, h: 0.45, gap: 0.1 });
-  txt(s, col, "45 + 658 = 703 = 19 × 37 ✓", { x: b999.x2 + 0.15, y: 2.6, w: 9.5 - b999.x2 - 0.15, h: 0.45, size: 13, color: col.ink });
-
-  // the big worked example
-  s.addShape(S.roundRect, { x: 0.5, y: 3.3, w: 9.0, h: 1.05, fill: { color: "EEF4F0" }, line: { color: "EEF4F0", width: 0 }, rectRadius: 0.1, objectName: "example-bg" });
-  txt(s, col, "45658", { x: 0.7, y: 3.38, w: 1.9, h: 0.9, size: 40, bold: true, color: col.board, fontFace: "Cambria" });
+  s.addShape(S.roundRect, { x: 0.5, y: 2.6, w: 9.0, h: 1.6, fill: { color: "EEF4F0" }, line: { color: "EEF4F0", width: 0 }, rectRadius: 0.1, objectName: "example-bg" });
+  txt(s, col, "45658", { x: 0.75, y: 2.75, w: 2.3, h: 0.8, size: 40, bold: true, color: col.board, fontFace: "Cambria" });
+  const b37 = blocks(s, pres, col, [{ text: "45", fill: col.yellow, op: "+" }, { text: "658", fill: col.green }], { x: 3.3, y: 2.8, size: 26, h: 0.7, gap: 0.45, opColor: col.board });
+  txt(s, col, "=  703  =  19 × 37 ✓", { x: b37.x2 + 0.25, y: 2.8, w: 9.3 - b37.x2 - 0.25, h: 0.7, size: 24, color: col.board, fontFace: "Cambria" });
   bi(s, col, [
-    { en: "37 divides 45658, no long division needed. (It is 37 × 1234. We checked.)", zh: "不用长除法就知道 37 整除 45658。（它等于 37 × 1234，我们验算过。）" },
-    { en: "Same trick, 2026 → 2 + 026 = 28, so 2026 ≡ 28 (mod 37).", zh: "同样地，2026 → 2 + 026 = 28，所以 2026 除以 37 余 28" },
-  ], { x: 2.7, y: 3.4, w: 6.6, h: 0.9, size: 13, zhSize: 11, dark: false, gap: 3 });
+    { en: "37 divides 45658, no long division. (It is 37 × 1234. We checked.)", zh: "不用长除法就知道 37 整除 45658（它等于 37 × 1234）" },
+  ], { x: 0.75, y: 3.65, w: 8.5, h: 0.45, size: 14, zhSize: 11, dark: false });
 
-  pill(s, pres, col, "Always chunk from the right:  45 | 658, not 456 | 58   ·   一定从个位开始分组", { x: 0.5, y: 4.55, w: 9.0, h: 0.5, size: 14, fill: col.pink, color: col.paper });
+  pill(s, pres, col, "Always chunk from the right:  45 | 658, not 456 | 58", { x: 0.5, y: 4.45, w: 9.0, h: 0.5, size: 15, fill: col.pink, color: col.paper });
   s.addNotes(notes.A4);
 
   // ───────────────────────── A5  transition ─────────────────────────
@@ -160,7 +153,7 @@ async function main() {
     { en: "Every division comes out exact. The last one gives back the number you started with. Try your own number.", zh: "每一步都能整除，最后一步回到你最初的数。用你自己的数试试。" },
   ], { x: 0.5, y: 3.25, w: 9.0, h: 0.8, size: 14, zhSize: 12 });
   s.addShape(S.roundRect, { x: 0.5, y: 4.1, w: 9.0, h: 0.9, fill: { color: "2A4A3C" }, line: { color: "2A4A3C", width: 0 }, rectRadius: 0.1, objectName: "live-bg" });
-  txt(s, col, "live  现场", { x: 0.7, y: 4.15, w: 1.5, h: 0.3, size: 11, color: col.mutedChalk });
+  txt(s, col, "box 2 of your worksheet", { x: 0.7, y: 4.15, w: 3.0, h: 0.3, size: 11, color: col.mutedChalk });
   txt(s, col, "______  →  ____________  →  ÷ 7  →  ÷ 11  →  ÷ 13  →  ______", { x: 0.7, y: 4.4, w: 8.6, h: 0.5, size: 18, color: col.yellow, fontFace: "Cambria", align: "center" });
   s.addNotes(notes.B1);
 
@@ -169,84 +162,60 @@ async function main() {
   title(s, col, "Why it works: 1000 acts like −1", "揭秘：1000 就是 −1", true);
   formulaBox(s, pres, col, "abcabc = abc·1000 + abc = abc · 1001 = abc · {p:7 · 11 · 13}", { x: 0.5, y: 1.25, w: 9.0, h: 0.6, size: 20 });
 
-  // left: one digit at a time (mod 11)
-  txt(s, col, "one digit at a time:  10 = 11 − 1,  so  {p:10 ≡ −1 (mod 11)}", { x: 0.5, y: 2.05, w: 4.6, h: 0.35, size: 14, color: col.chalk });
-  txt(s, col, "一位一位看：10 ≡ −1 (mod 11)，从个位起正负交替", { x: 0.5, y: 2.36, w: 4.6, h: 0.3, size: 11, color: col.mutedChalk });
-  signChain(s, pres, col, ["2", "0", "2", "6"], { x: 0.75, y: 3.05, size: 30, cell: 0.65, gap: 0.3, powers: ["10^{3}≡−1", "10^{2}≡+1", "10≡−1", "1"] });
-  // powers via runs can't be in plain addText; replace labels after: simpler, draw separately
-  txt(s, col, "6 − 2 + 0 − 2 = {y:2}   ⇒   2026 ≡ 2 (mod 11) ✓", { x: 0.5, y: 4.25, w: 4.6, h: 0.4, size: 16, color: col.chalk, fontFace: "Cambria" });
-  txt(s, col, "start the + from the units digit  ·  从个位开始取正号", { x: 0.5, y: 4.65, w: 4.6, h: 0.3, size: 11, color: col.mutedChalk });
-
-  // right: three digits at a time (mod 1001)
-  txt(s, col, "3 digits at a time:  1000 = 1001 − 1,  so  {p:1000 ≡ −1}", { x: 5.3, y: 2.05, w: 4.3, h: 0.35, size: 14, color: col.chalk });
-  txt(s, col, "三位一组：1000 ≡ −1 (mod 1001)，交替相加", { x: 5.3, y: 2.36, w: 4.3, h: 0.3, size: 11, color: col.mutedChalk });
-  const bB2 = blocks(s, pres, col, [{ text: "2", fill: col.pink, op: "−" }, { text: "026", fill: col.yellow }], { x: 5.5, y: 2.95, size: 28, h: 0.7, gap: 0.4 });
-  txt(s, col, "=  {y:24}", { x: bB2.x2 + 0.2, y: 2.95, w: 9.6 - bB2.x2 - 0.2, h: 0.7, size: 26, color: col.chalk, fontFace: "Cambria" });
   bi(s, col, [
-    { en: "24 ≡ 3 (mod 7),  24 ≡ 11 (mod 13). Both are the true remainders of 2026.", zh: "24 除以 7 余 3、除以 13 余 11，和 2026 的余数完全一样" },
-    { en: "572572 → 572 − 572 = 0  ⇒  7, 11, 13 all divide it.", zh: "572572 → 572 − 572 = 0，所以 7、11、13 都整除它" },
-  ], { x: 5.3, y: 3.8, w: 4.3, h: 1.3, size: 13, zhSize: 11, gap: 4 });
+    { en: "And 1000 = 1001 − 1, so {p:1000 ≡ −1 (mod 1001)}.", zh: "1000 = 1001 − 1，所以模 1001 时 1000 就是 −1" },
+    { en: "Cut into three-digit chunks from the right and alternate + − + −. You get the remainder mod 7, 11 and 13 at once.", zh: "从个位起三位一组，正负交替相加，一次得到模 7、11、13 的余数" },
+  ], { x: 0.5, y: 2.05, w: 9.0, h: 1.0, size: 16, zhSize: 12, gap: 4 });
+  txt(s, col, "2026", { x: 0.6, y: 3.15, w: 1.6, h: 0.8, size: 34, bold: true, color: col.chalk, fontFace: "Cambria" });
+  const bB2 = blocks(s, pres, col, [{ text: "026", fill: col.yellow, op: "−" }, { text: "2", fill: col.pink }], { x: 2.35, y: 3.2, size: 28, h: 0.72, gap: 0.45 });
+  txt(s, col, "=  {y:24}", { x: bB2.x2 + 0.2, y: 3.2, w: 1.4, h: 0.72, size: 28, color: col.chalk, fontFace: "Cambria" });
+  bi(s, col, [
+    { en: "24 ≡ {y:3} (mod 7)", zh: "" },
+    { en: "24 ≡ {y:11} (mod 13)", zh: "" },
+    { en: "Both are the true remainders of 2026.", zh: "和 2026 的真实余数一样" },
+  ], { x: 6.2, y: 3.1, w: 3.4, h: 1.2, size: 15, zhSize: 11, gap: 2 });
+  txt(s, col, "572572 → 572 − 572 = 0, so 7, 11 and 13 all divide it. That's the trick again.", { x: 0.5, y: 4.55, w: 9.0, h: 0.4, size: 13, color: col.mutedChalk });
   s.addNotes(notes.B2);
 
-  // ───────────────────────── B3  one idea ─────────────────────────
-  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Yueran" });
-  title(s, col, "One idea, every rule", "一个想法，所有规则", false);
-  formulaBox(s, pres, col, "find k with  10^{k} ≡ {g:+1}  or  {p:−1}   (mod d)", { x: 0.5, y: 1.2, w: 9.0, h: 0.6, size: 22, dark: false, bold: true });
-  bi(s, col, [
-    { en: "{g:+1}  →  cut into k-digit chunks from the right and {g:add} them", zh: "+1 → 从个位起 k 位一组，相加" },
-    { en: "{p:−1}  →  same chunks, {p:alternate} + − + −", zh: "−1 → 同样分组，正负交替相加" },
-    { en: "The result is the remainder mod d, not just yes/no.", zh: "得到的不只是能否整除，连余数都对" },
-  ], { x: 0.5, y: 1.9, w: 4.0, h: 2.2, size: 14, zhSize: 11, dark: false, gap: 6 });
-  table(s, col, [
-    ["d", "k", "10ᵏ ≡", "rule / 规则"],
-    ["3, 9", "1", "+1", "digit sum · 数字和"],
-    ["11", "1", "−1", "alternate digits · 一位交错"],
-    ["101", "2", "−1", "alternate 2-chunks · 两位交错"],
-    ["37 (and 27)", "3", "+1", "add 3-chunks · 三位相加"],
-    ["7, 13 (and 77)", "3", "−1", "alternate 3-chunks · 三位交错"],
-    ["41", "5", "+1", "add 5-chunks · 五位相加"],
-  ], { x: 4.8, y: 1.9, w: 4.7, h: 2.6, colW: [1.25, 0.45, 0.7, 2.3], dark: false, size: 12, headSize: 12 });
-  txt(s, col, "{b:2026}: 2+0+2+6 = 10 → mod 9 = 1 · 6−2+0−2 → mod 11 = 2 · 026−2 = 24 → mod 7 = 3, mod 13 = 11 · 2+026 → mod 37 = 28", { x: 0.5, y: 4.65, w: 9.0, h: 0.4, size: 12, color: col.mutedInk });
-  s.addNotes(notes.B3);
-
-  // ───────────────────────── B4  Fermat, order, 142857 ─────────────────────────
+  // ───────────────────────── B3  one idea + Fermat + order = period ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  title(s, col, "Why every prime gets a rule", "为什么一定有规则", true);
-  formulaBox(s, pres, col, "Fermat:  10^{p−1} ≡ 1 (mod p)   for every prime p ≠ 2, 5", { x: 0.5, y: 1.2, w: 5.3, h: 0.55, size: 17 });
+  title(s, col, "One idea, every prime", "一个想法，每个素数", true);
+  formulaBox(s, pres, col, "find k with  10^{k} ≡ {y:+1}  or  {p:−1}   (mod d)", { x: 0.5, y: 1.2, w: 5.4, h: 0.52, size: 17 });
   bi(s, col, [
-    { en: "So (p − 1)-digit chunks always work.", zh: "所以 (p − 1) 位一组一定可以" },
-    { en: "Shortest {y:additive} chunk = ord_{p}(10), the order of 10 mod p.", zh: "最短的相加组长 = 10 模 p 的阶" },
-    { en: "And that same number is the period of 1/p.", zh: "这个数也正好是 1/p 的循环节长度" },
-  ], { x: 0.5, y: 1.9, w: 5.3, h: 1.7, size: 14, zhSize: 11, gap: 5 });
-  formulaBox(s, pres, col, "1/7 = 0.{y:142857} 142857 …     ord_{7}(10) = {y:6}", { x: 0.5, y: 3.55, w: 5.3, h: 0.55, size: 17 });
+    { en: "{y:+1}: add k-digit chunks.  9 (k = 1), 37 (k = 3)", zh: "+1：k 位一组相加" },
+    { en: "{p:−1}: alternate them.  7 and 13 (k = 3)", zh: "−1：交替加减" },
+  ], { x: 0.55, y: 1.8, w: 5.35, h: 0.8, size: 14, zhSize: 11, gap: 3 });
+  formulaBox(s, pres, col, "Fermat:  10^{p−1} ≡ 1 (mod p)   for every prime p ≠ 2, 5", { x: 0.5, y: 2.68, w: 5.4, h: 0.52, size: 16 });
   bi(s, col, [
-    { en: "142857 × 2 = 285714,  × 3 = 428571,  × 6 = 857142. Same digits, rotated. 10 is a primitive root mod 7.", zh: "乘 2、3、…、6 都是同一串数字转圈。因为 10 是模 7 的原根" },
-  ], { x: 0.5, y: 4.2, w: 5.3, h: 0.9, size: 13, zhSize: 11 });
+    { en: "So a rule always exists.", zh: "所以规则一定存在" },
+    { en: "Shortest additive chunk = ord_{p}(10) = the period of 1/p.", zh: "最短相加组长 = 10 模 p 的阶 = 1/p 的循环节长度" },
+  ], { x: 0.55, y: 3.28, w: 5.35, h: 0.8, size: 14, zhSize: 11, gap: 3 });
+  formulaBox(s, pres, col, "1/7 = 0.{y:142857} 142857 …     ord_{7}(10) = {y:6}", { x: 0.5, y: 4.2, w: 5.4, h: 0.52, size: 16 });
 
-  cycle(s, pres, col, 7.75, 2.85, 1.2, [
+  cycle(s, pres, col, 7.75, 2.75, 1.15, [
     { label: "1", hot: true, note: "digit 1" }, { label: "3", note: "digit 4" }, { label: "2", note: "digit 2" },
     { label: "6", note: "digit 8" }, { label: "4", note: "digit 5" }, { label: "5", note: "digit 7" },
   ], { arrow: col.yellow });
-  txt(s, col, "remainders of 1 ÷ 7 = powers of 10 mod 7", { x: 5.95, y: 4.72, w: 3.6, h: 0.28, size: 11, color: col.chalk, align: "center" });
-  txt(s, col, "长除法的余数 = 10 的各次幂模 7，6 步回到 1", { x: 5.95, y: 4.98, w: 3.6, h: 0.26, size: 10, color: col.mutedChalk, align: "center" });
-  s.addNotes(notes.B4);
+  txt(s, col, "remainders of 1 ÷ 7 = powers of 10 mod 7", { x: 5.95, y: 4.5, w: 3.6, h: 0.28, size: 11, color: col.chalk, align: "center" });
+  txt(s, col, "142857 × 2 = 285714,  × 3 = 428571", { x: 5.95, y: 4.78, w: 3.6, h: 0.28, size: 11, color: col.mutedChalk, align: "center" });
+  s.addNotes(notes.B3);
 
-  // ───────────────────────── B5  closing ─────────────────────────
+  // ───────────────────────── B4  closing ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD_HERO", sectionTitle: "Yueran" });
   txt(s, col, "If you know what {y:10} is mod d,", { x: 0.6, y: 0.7, w: 8.8, h: 0.6, size: 30, bold: true, color: col.chalk, fontFace: "Cambria" });
   txt(s, col, "you can build the rule for d yourself.", { x: 0.6, y: 1.3, w: 8.8, h: 0.6, size: 30, bold: true, color: col.chalk, fontFace: "Cambria" });
   txt(s, col, "只要知道 10 模 d 等于几，你就能自己造出 d 的整除规则。", { x: 0.6, y: 1.95, w: 8.8, h: 0.45, size: 18, color: col.mutedChalk });
   bi(s, col, [
-    { en: "Fermat says the rule exists.  The order of 10 says how short it can be.", zh: "费马小定理保证规则存在；10 的阶决定它最短有多短，也等于 1/d 的循环节长度" },
-  ], { x: 0.6, y: 2.55, w: 8.8, h: 0.9, size: 16, zhSize: 12 });
+    { en: "Fermat says the rule exists.  The order of 10 says how short it can be.", zh: "费马小定理保证规则存在；10 的阶决定它最短有多短" },
+  ], { x: 0.6, y: 2.55, w: 8.8, h: 0.6, size: 16, zhSize: 12 });
 
-  s.addShape(S.roundRect, { x: 0.6, y: 3.5, w: 8.8, h: 1.0, fill: { color: "2A4A3C" }, line: { color: "2A4A3C", width: 0 }, rectRadius: 0.1, objectName: "more-bg" });
+  s.addShape(S.roundRect, { x: 0.6, y: 3.3, w: 8.8, h: 0.95, fill: { color: "2A4A3C" }, line: { color: "2A4A3C", width: 0 }, rectRadius: 0.1, objectName: "more-bg" });
   bi(s, col, [
-    { en: "In the full deck: chop-the-last-digit rule for 7 (x − 2y), why ISBN uses 11, Midy's 142 + 857 = 999, and every proof.", zh: "完整版里还有：7 的砍个位法、ISBN 为什么用 11、Midy 定理、以及每一步的证明" },
-    { en: "github.com/ZhihengLi0/math5248", zh: "" },
-  ], { x: 0.8, y: 3.58, w: 8.4, h: 0.85, size: 13, zhSize: 11, gap: 3 });
-  txt(s, col, "Thank you. Now go try the 1001 trick on a friend.  ·  谢谢", { x: 0.6, y: 4.7, w: 8.8, h: 0.45, size: 16, color: col.yellow, align: "center" });
-  s.addNotes(notes.B5);
+    { en: "The proofs are on the back of your worksheet.", zh: "证明在 worksheet 背面" },
+    { en: "A quick rule for 7, why ISBN uses 11, 142857 and more: github.com/ZhihengLi0/math5248", zh: "更多内容在 GitHub" },
+  ], { x: 0.8, y: 3.42, w: 8.4, h: 0.75, size: 15, zhSize: 11, gap: 5 });
+  txt(s, col, "Thank you. Now go try the 1001 trick on a friend.  ·  谢谢", { x: 0.6, y: 4.65, w: 8.8, h: 0.45, size: 16, color: col.yellow, align: "center" });
+  s.addNotes(notes.B4);
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);

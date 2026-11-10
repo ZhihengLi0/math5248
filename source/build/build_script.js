@@ -10,15 +10,15 @@ const L = [];
 const p = (...a) => L.push(...a, "");
 
 const total = SLIDES.reduce((s, x) => s + x.secs, 0);
-p("# Speaker Script / 演讲稿 — Numbers That Talk: divisibility rules and the modular arithmetic behind them");
-p(`两人共 ${Math.round(total / 60)} 分钟，10 页正片（Zhiheng 第 1–5 页，Yueran 第 6–10 页），完整版 22 页另交。每页先中文、后英文，意思一样，**英文可以直接照着念**。全部是短句、口语。斜体是给自己的提示，不用念。**加粗的英文**是指着屏幕说的句子。`);
-p("一句话主线：**10 ≡ 1 → 数字和 → 10ᵏ ≡ 1 → k 位一组相加 → 10ᵏ ≡ −1 → 交错相加 → 费马小定理保证规则存在，10 的阶 = 最短相加组长 = 1/p 的循环节。**");
+p("# Speaker Script / 演讲稿 · Numbers That Talk: divisibility rules and the modular arithmetic behind them");
+p(`共 ${total} 秒（约 ${Math.round(total / 60 * 10) / 10} 分钟），留出互动和超时的余量。9 页正片：Zhiheng 第 1–5 页，Yueran 第 6–9 页。同学手上有两页 worksheet：第 1 页跟着做两个魔术，第 2 页是原理和证明。每页先中文、后英文，意思一样，**英文可以直接照着念**。全部是短句、口语。斜体是给自己的提示，不用念。**加粗的英文**是指着屏幕说的句子。`);
+p("一句话主线：**只讲透一个原理（10 ≡ 1 mod 9 ⇒ 数字和），其余当广告：10ᵏ ≡ ±1 ⇒ 分组规则，费马小定理保证规则存在，10 的阶 = 最短相加组长 = 1/p 的循环节。**");
 p("时间（秒）：" + SLIDES.map((s) => `${s.n} ${s.title.split(":")[0]} ${s.secs}`).join(" · ") + ` → 共 ${total} 秒（约 ${Math.round(total / 60)} 分钟）。`);
-p("道具：Zhiheng 不需要。Yueran 需要三位有计算器的同学（手机就行），Zhiheng 讲的时候先物色好。两人交接：第 5 页抛出\"10ᵏ ≡ −1 呢？\"，第 6 页用魔术回答，不用定义回答。");
+p("道具：worksheet 打印好（每人一份，双面），开讲前发。魔术二大家用手机计算器。两人交接：第 5 页抛出\"10ᵏ ≡ −1 呢？\"，第 6 页用魔术回答，不用定义回答。");
 p("---");
 
 for (const s of SLIDES) {
-  p(`## Slide ${s.n} — ${s.title}（${SPEAKERS[s.speaker]}，约 ${s.secs} 秒）`);
+  p(`## Slide ${s.n} · ${s.title}（${SPEAKERS[s.speaker]}，约 ${s.secs} 秒）`);
   p(`**中文**：${s.zh}`);
   p(`**English**: ${s.en}`);
   if (s.hints) p(...s.hints.map((h) => `*${h}*`));
