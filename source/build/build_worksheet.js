@@ -156,8 +156,6 @@ const page2 = `
     <h3>F &middot; Not in the talk, in the full deck</h3>
     <p class="more">Chop-the-last-digit rules from 10<sup>&minus;1</sup> mod d (7: x &minus; 2y; 13: x + 4y). &nbsp; 2<sup>k</sup> and 5<sup>k</sup>: last k digits, since 10 &equiv; 0. &nbsp; Coprime factors combine (6 = 2 &times; 3), non-coprime do not (4 and 6 divide 12, but 24 does not). &nbsp; Other bases: digit sum tests b &minus; 1, alternating sum tests b + 1. &nbsp; ISBN-10 check digits use mod 11 because 11 is prime.</p>
 
-    <h3>References</h3>
-    <p class="refs">MATH 5248 notes: congruences (Day 3), units and inverses (Day 4&ndash;5), Euclid's lemma (Day 6), CRT (Day 10&ndash;11), Fermat (Day 11&ndash;12), Euler (Day 12&ndash;13), order (Day 13), primitive roots (Day 14). &nbsp; Hoffstein, Pipher, Silverman, <i>An Introduction to Mathematical Cryptography</i>, pp. 30&ndash;32. &nbsp; NTIC (Number Theory: In Context and Interactive). &nbsp; Wikipedia: Divisibility rule; Repeating decimal; Multiplicative order; Cyclic number; Midy's theorem. &nbsp; Every number here was checked by our script <i>verify/check_examples.py</i> in the repo.</p>
   </div>
   </div>
 </section>`;
