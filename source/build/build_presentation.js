@@ -68,22 +68,32 @@ async function main() {
   pill(s, pres, col, "Write along in box 1 of your worksheet", { x: 0.5, y: 4.55, w: 9.0, h: 0.45, size: 14, fill: col.yellow });
   s.addNotes(notes.A2);
 
-  // ───────────────────────── A3  clock ─────────────────────────
+  // ───────────────────────── A3  999 / 99 / 9 breakdown + clock ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Zhiheng" });
   title(s, col, "A clock with only 9 marks", "只有 9 个刻度的钟", true);
-  clock9(s, pres, col, 2.1, 3.0, 1.55, { highlight: [1, 9], hand: 1 });
-  txt(s, col, "walk {y:10} steps = walk {y:1} step", { x: 0.3, y: 4.68, w: 3.6, h: 0.3, size: 13, color: col.chalk, align: "center" });
-  txt(s, col, "走 10 格 = 走 1 格；100 格、1000 格也一样", { x: 0.3, y: 4.95, w: 3.6, h: 0.28, size: 11, color: col.mutedChalk, align: "center" });
+  clock9(s, pres, col, 1.75, 2.75, 1.2, { highlight: [1, 9], hand: 1 });
+  txt(s, col, "walk {y:10} steps = walk {y:1} step", { x: 0.3, y: 4.1, w: 2.9, h: 0.3, size: 13, color: col.chalk, align: "center" });
 
-  formulaBox(s, pres, col, "2026 = 2·{y:10^{3}} + 0·{y:10^{2}} + 2·{y:10} + 6", { x: 4.3, y: 1.3, w: 5.2, h: 0.62, size: 20 });
-  txt(s, col, "on the 9-clock every {y:10^{k}} is just {y:1}  ·  钟上每个 10 的幂都只是 1", { x: 4.3, y: 1.98, w: 5.2, h: 0.32, size: 12, color: col.mutedChalk, align: "center" });
-  formulaBox(s, pres, col, "2026 ≡ 2 + 0 + 2 + 6 = 10 ≡ {y:1}   (mod 9)", { x: 4.3, y: 2.35, w: 5.2, h: 0.62, size: 20 });
+  // the breakdown: 2026 = 2·(999+1) + 0·(99+1) + 2·(9+1) + 6
+  s.addShape(S.roundRect, { x: 3.35, y: 1.25, w: 6.15, h: 1.95, fill: { color: "2A4A3C" }, line: { color: "2A4A3C", width: 0 }, rectRadius: 0.1, objectName: "derivation-bg" });
+  const L = { x: 3.5, w: 0.85 }, R = { x: 4.4, w: 5.0 };
+  const rows = [
+    ["2026", "= 2·1000 + 0·100 + 2·10 + 6"],
+    ["", "= 2·({y:999} + 1) + 0·({y:99} + 1) + 2·({y:9} + 1) + 6"],
+    ["", "= ({y:2·999 + 0·99 + 2·9}) + ({p:2 + 0 + 2 + 6})"],
+  ];
+  rows.forEach(([l, r], i) => {
+    const y = 1.33 + i * 0.44;
+    if (l) txt(s, col, l, { x: L.x, y, w: L.w, h: 0.42, size: 18, color: col.chalk, fontFace: "Cambria", align: "right" });
+    txt(s, col, r, { x: R.x, y, w: R.w, h: 0.42, size: 18, color: col.chalk, fontFace: "Cambria" });
+  });
+  txt(s, col, "{y:a multiple of 9}   +   {p:the digit sum}", { x: R.x, y: 2.68, w: R.w, h: 0.35, size: 14, color: col.mutedChalk });
 
+  formulaBox(s, pres, col, "so  2026 ≡ 2 + 0 + 2 + 6 = 10 ≡ {y:1}   (mod 9)", { x: 3.35, y: 3.32, w: 6.15, h: 0.55, size: 19 });
   bi(s, col, [
-    { en: "Same digits  ⇒  same spot on the clock.", zh: "数字一样 ⇒ 停在同一个刻度" },
-    { en: "Subtract  ⇒  land on the top, that is 0 (mod 9).", zh: "一减 ⇒ 回到顶上，也就是 0" },
-    { en: "So the digits of the result add to a multiple of 9. You read all but one; I fill in the gap.", zh: "所以结果的各位数字之和是 9 的倍数。你念了其余的，我补上缺的那个" },
-  ], { x: 4.3, y: 3.15, w: 5.2, h: 2.0, size: 14, zhSize: 11, gap: 5 });
+    { en: "Same digits  ⇒  same digit sum  ⇒  same remainder.", zh: "数字一样 ⇒ 数字和一样 ⇒ 余数一样" },
+    { en: "Subtract  ⇒  remainder 0, so the answer's digits add up to a multiple of 9.", zh: "一减余数是 0，所以答案的数字和是 9 的倍数" },
+  ], { x: 3.4, y: 4.0, w: 6.1, h: 1.1, size: 14, zhSize: 11, gap: 5 });
   s.addNotes(notes.A3);
 
   // ───────────────────────── A4  999 = 27 × 37 ─────────────────────────

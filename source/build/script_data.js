@@ -23,9 +23,9 @@ const SLIDES = [
   },
   {
     id: "A3", n: 3, speaker: "A", secs: 90, title: "A clock with only 9 marks",
-    zh: "原理是这样。2026 其实是 2 个一千、0 个一百、2 个十，再加 6。**看这个钟，只有 9 个刻度。**从顶上出发走 10 格，会停在顶上的下一格，和走 1 格一样。走 100 格呢？还是下一格。1000 格也是。所以在这个钟上，2026 就是 2 加 0 加 2 加 6。用课上的话说：10 模 9 同余于 1。整个想法就这一句。再看魔术。你的数和打乱后的数，用的是同样的数字，所以停在同一个刻度。一减，就回到顶上，也就是 0。**所以答案的各位数字加起来，一定是 9 的倍数。**你念了几个，我把缺的补上就行。这也是为什么不能圈 0：0 和 9 我分不出来。",
-    en: "So how does it work? 2026 is 2 thousands, 0 hundreds, 2 tens, and 6. **Now look at this clock. It only has 9 marks.** Start at the top and walk 10 steps. You land one mark past the top. Same as walking 1 step. Walk 100 steps? Still one mark. 1000? Still one. So on this clock, 2026 is just 2 plus 0 plus 2 plus 6. In class words: 10 is congruent to 1 mod 9. That's the whole idea. Now the trick. Your number and the shuffled one use the same digits. So they stop at the same mark. Subtract, and you're back at the top. That's zero. **So the digits of your answer always add up to a multiple of 9.** You told me all but one. I just filled the gap. That's also why you can't circle a zero. A zero and a nine look the same to me.",
-    hints: ["用手指在钟上慢慢走 10 格。 / Walk your finger 10 steps around the clock, slowly."],
+    zh: "原理是这样。2026 是 2 个一千、0 个一百、2 个十，再加 6。**把每个拆开：1000 是 999 加 1，100 是 99 加 1，10 是 9 加 1。**把 999、99、9 那些放在一起，那一部分是 9 的倍数。剩下的就是 2 加 0 加 2 加 6，也就是数字和。所以 2026 和它的数字和，除以 9 余数一样。左边的钟也是这个意思：9 个刻度的钟上走 10 格，和走 1 格停在同一个地方。再看魔术。你的数和打乱后的数，数字一样，数字和一样，余数也一样。一减，余数就是 0。**所以答案的各位数字加起来一定是 9 的倍数。**你念了几个，我补上缺的那个。也因为这样不能圈 0：0 和 9 我分不出来。",
+    en: "So how does it work? 2026 is 2 thousands, 0 hundreds, 2 tens and 6. **Now split each one. 1000 is 999 plus 1. 100 is 99 plus 1. 10 is 9 plus 1.** Put all the 999s, 99s and 9s together. That part is a multiple of 9. What's left is 2 plus 0 plus 2 plus 6. The digit sum. So 2026 and its digit sum have the same remainder mod 9. The clock says the same thing: on a clock with 9 marks, 10 steps land where 1 step lands. Now the trick. Your number and the shuffled one have the same digits. Same digit sum, same remainder. Subtract, and the remainder is zero. **So the digits of your answer always add up to a multiple of 9.** You told me all but one. I just filled the gap. That's also why no zeros: a zero and a nine would look the same to me.",
+    hints: ["先指右边三行拆分，一行一行讲；最后用手指在钟上走 10 格。 / Point at the three lines on the right, one at a time. Then walk your finger 10 steps around the clock."],
   },
   {
     id: "A4", n: 4, speaker: "A", secs: 45, title: "What about 37?",

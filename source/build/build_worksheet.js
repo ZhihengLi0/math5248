@@ -117,6 +117,7 @@ const page2 = `
     <div class="fig">${clock9()}<div class="cap">A clock with only 9 marks. 10 steps land where 1 step lands. So do 100 and 1000.</div></div>
     <p><b>Theorem.</b> For any n with digits d<sub>0</sub>, d<sub>1</sub>, &hellip; (units first), n &equiv; d<sub>0</sub> + d<sub>1</sub> + &hellip; (mod 9), hence also mod 3.</p>
     <p><b>Proof.</b> n = d<sub>0</sub> + d<sub>1</sub>&middot;10 + d<sub>2</sub>&middot;10<sup>2</sup> + &hellip;. Since 10 = 9 + 1, 10 &equiv; 1 (mod 9), so 10<sup>i</sup> &equiv; 1 and d<sub>i</sub>&middot;10<sup>i</sup> &equiv; d<sub>i</sub>. Add up. 3 | 9 gives the mod 3 version. &#8718;</p>
+    <p class="ex2">Without congruences: 2026 = 2&middot;(999+1) + 0&middot;(99+1) + 2&middot;(9+1) + 6 = (2&middot;999 + 0&middot;99 + 2&middot;9) + (2+0+2+6), a multiple of 9 plus the digit sum.</p>
     <p><b>The trick.</b> Your number n and the shuffled n&prime; have the same digits, so n &equiv; n&prime; (mod 9) and 9 | n &minus; n&prime;. By the theorem the digits of the difference add to a multiple of 9. You read all but one digit x; the sum s you read satisfies s + x &equiv; 0 (mod 9), and exactly one x in 1&hellip;9 does that. (A 0 is banned because 0 and 9 would look the same.)</p>
     <p class="ex2">2026 &rarr; 2+0+2+6 = 10 &rarr; 1, so 2026 &equiv; 1 (mod 9). &nbsp; 7452 &rarr; 18, so 9 | 7452.</p>
 
