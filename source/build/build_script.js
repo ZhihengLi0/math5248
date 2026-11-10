@@ -10,11 +10,11 @@ const L = [];
 const p = (...a) => L.push(...a, "");
 
 const total = SLIDES.reduce((s, x) => s + x.secs, 0);
-p("# Speaker Script / 演讲稿 · Numbers That Talk: divisibility rules and the modular arithmetic behind them");
-p(`共 ${total} 秒（约 ${Math.round(total / 60 * 10) / 10} 分钟），留出互动和超时的余量。9 页正片：Zhiheng 第 1–5 页，Yueran 第 6–9 页。同学手上有两页 worksheet：第 1 页跟着做两个魔术，第 2 页是原理和证明。每页先中文、后英文，意思一样，**英文可以直接照着念**。全部是短句、口语。斜体是给自己的提示，不用念。**加粗的英文**是指着屏幕说的句子。`);
-p("一句话主线：**只讲透一个原理（10 ≡ 1 mod 9 ⇒ 数字和），其余当广告：10ᵏ ≡ ±1 ⇒ 分组规则，费马小定理保证规则存在，10 的阶 = 最短相加组长 = 1/p 的循环节。**");
+p("# 演讲稿 · MATH 5248 final talk");
+p(`共 ${total} 秒。Zhiheng 讲 1–5，Yueran 讲 6–9。每页先中文后英文，英文照着念就行。**加粗**是指着屏幕说的，*斜体*是提醒自己的，不用念。`);
+p("主线：只把 10 ≡ 1 (mod 9) 讲透，后面都是结论，证明让大家看 worksheet 背面。");
 p("时间（秒）：" + SLIDES.map((s) => `${s.n} ${s.title.split(":")[0]} ${s.secs}`).join(" · ") + ` → 共 ${total} 秒（约 ${Math.round(total / 60)} 分钟）。`);
-p("道具：worksheet 打印好（每人一份，双面），开讲前发。魔术二大家用手机计算器。两人交接：第 5 页抛出\"10ᵏ ≡ −1 呢？\"，第 6 页用魔术回答，不用定义回答。");
+p("准备：worksheet 双面打印，开讲前发。魔术二用手机计算器。第 5 页问\"10ᵏ ≡ −1 呢？\"，Yueran 直接用魔术接。");
 p("---");
 
 for (const s of SLIDES) {

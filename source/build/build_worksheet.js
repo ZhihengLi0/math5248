@@ -57,8 +57,8 @@ const page1 = `
 <section class="page">
   <header>
     <div class="title">Numbers That Talk</div>
-    <div class="sub">Divisibility shortcuts, and the modular arithmetic hiding behind them</div>
-    <div class="by">Zhiheng Li &middot; Yueran &middot; MATH 5248 &middot; December 2026</div>
+    <div class="sub">Divisibility rules and why they work</div>
+    <div class="by">Zhiheng Li and Yueran, MATH 5248, December 2026</div>
     <div class="lead">Do this with us during the talk. The <b>why</b> is on the back.</div>
   </header>
 
@@ -100,7 +100,6 @@ const page1 = `
     </ol>
   </div>
 
-  <div class="foot">Full proofs, 142857, Midy, a quick rule for 7 and ISBN: <b>github.com/ZhihengLi0/math5248</b></div>
   <div class="turn">Why does any of this work? &rarr; turn over</div>
 </section>`;
 
@@ -109,24 +108,24 @@ const page2 = `
 <section class="page p2">
   <header class="small">
     <div class="title2">Why it works</div>
-    <div class="by">Everything below uses only tools from MATH 5248: congruences, Fermat and Euler, the order of an element. Full proofs, every example and a checker script: <b>github.com/ZhihengLi0/math5248</b></div>
+    <div class="by">Everything below only uses things from class: congruences, Fermat and Euler, and the order of an element.</div>
   </header>
 
   <div class="cols">
   <div class="col">
-    <h3>A &middot; Trick 1 is "10 &equiv; 1 (mod 9)"</h3>
+    <h3>A. Trick 1 is "10 &equiv; 1 (mod 9)"</h3>
     <div class="fig">${clock9()}<div class="cap">A clock with only 9 marks. 10 steps land where 1 step lands. So do 100 and 1000.</div></div>
     <p><b>Theorem.</b> For any n with digits d<sub>0</sub>, d<sub>1</sub>, &hellip; (units first), n &equiv; d<sub>0</sub> + d<sub>1</sub> + &hellip; (mod 9), hence also mod 3.</p>
     <p><b>Proof.</b> n = d<sub>0</sub> + d<sub>1</sub>&middot;10 + d<sub>2</sub>&middot;10<sup>2</sup> + &hellip;. Since 10 = 9 + 1, 10 &equiv; 1 (mod 9), so 10<sup>i</sup> &equiv; 1 and d<sub>i</sub>&middot;10<sup>i</sup> &equiv; d<sub>i</sub>. Add up. 3 | 9 gives the mod 3 version. &#8718;</p>
     <p><b>The trick.</b> Your number n and the shuffled n&prime; have the same digits, so n &equiv; n&prime; (mod 9) and 9 | n &minus; n&prime;. By the theorem the digits of the difference add to a multiple of 9. You read all but one digit x; the sum s you read satisfies s + x &equiv; 0 (mod 9), and exactly one x in 1&hellip;9 does that. (A 0 is banned because 0 and 9 would look the same.)</p>
     <p class="ex2">2026 &rarr; 2+0+2+6 = 10 &rarr; 1, so 2026 &equiv; 1 (mod 9). &nbsp; 7452 &rarr; 18, so 9 | 7452.</p>
 
-    <h3>B &middot; Trick 2 is "1000 &equiv; &minus;1 (mod 1001)"</h3>
+    <h3>B. Trick 2 is "1000 &equiv; &minus;1 (mod 1001)"</h3>
     <p>abcabc = abc&middot;1000 + abc = abc&middot;1001, and <b>1001 = 7 &times; 11 &times; 13</b>. Dividing by 7, 11, 13 in turn is dividing by 1001, so abc comes back. It cannot fail.</p>
-    <p>The real point: 1000 = 1001 &minus; 1, so 1000 &equiv; &minus;1 (mod 1001). Cut n into three-digit blocks B<sub>0</sub>, B<sub>1</sub>, B<sub>2</sub>, &hellip; from the right. Then n = B<sub>0</sub> + B<sub>1</sub>&middot;1000 + B<sub>2</sub>&middot;1000<sup>2</sup> + &hellip; &equiv; B<sub>0</sub> &minus; B<sub>1</sub> + B<sub>2</sub> &minus; &hellip; (mod 1001), hence mod 7, 11 and 13 at once.</p>
+    <p>More useful: 1000 = 1001 &minus; 1, so 1000 &equiv; &minus;1 (mod 1001). Cut n into three-digit blocks B<sub>0</sub>, B<sub>1</sub>, B<sub>2</sub>, &hellip; from the right. Then n = B<sub>0</sub> + B<sub>1</sub>&middot;1000 + B<sub>2</sub>&middot;1000<sup>2</sup> + &hellip; &equiv; B<sub>0</sub> &minus; B<sub>1</sub> + B<sub>2</sub> &minus; &hellip; (mod 1001), hence mod 7, 11 and 13 at once.</p>
     <p class="ex2">2026 &rarr; 026 &minus; 2 = 24 &rarr; 24 &equiv; 3 (mod 7), &equiv; 11 (mod 13), &equiv; 2 (mod 11). All three are the true remainders.</p>
 
-    <h3>C &middot; One idea, every rule</h3>
+    <h3>C. One idea, every rule</h3>
     <p><b>Block theorem.</b> If 10<sup>k</sup> &equiv; 1 (mod d), then n &equiv; B<sub>0</sub> + B<sub>1</sub> + B<sub>2</sub> + &hellip; (mod d) for k-digit blocks from the right. If 10<sup>k</sup> &equiv; &minus;1, then n &equiv; B<sub>0</sub> &minus; B<sub>1</sub> + B<sub>2</sub> &minus; &hellip;. Proof: write n in base 10<sup>k</sup> and use (10<sup>k</sup>)<sup>j</sup> &equiv; (&plusmn;1)<sup>j</sup>, exactly as in A. &#8718;</p>
     <table>
       <tr><th>d</th><th>k</th><th style="white-space:nowrap">10<sup>k</sup> &equiv;</th><th>rule</th><th>example</th></tr>
@@ -140,20 +139,20 @@ const page2 = `
   </div>
 
   <div class="col">
-    <h3>D &middot; Every prime p &ne; 2, 5 gets a rule</h3>
+    <h3>D. Every prime p &ne; 2, 5 gets a rule</h3>
     <p><b>Theorem.</b> (1) (p &minus; 1)-digit blocks, added, always work. (2) The shortest <i>additive</i> block is k = ord<sub>p</sub>(10), and k | p &minus; 1. (3) If k is even, 10<sup>k/2</sup> &equiv; &minus;1 (mod p), so (k/2)-blocks with alternating signs work too.</p>
     <p><b>Proof.</b> (1) p does not divide 10, so Fermat gives 10<sup>p&minus;1</sup> &equiv; 1 (mod p); apply the block theorem. (2) By definition of the order, k is the least exponent with 10<sup>k</sup> &equiv; 1, and a<sup>n</sup> &equiv; 1 &rArr; ord | n gives k | p &minus; 1. (3) Put x = 10<sup>k/2</sup>. Then p | x<sup>2</sup> &minus; 1 = (x &minus; 1)(x + 1). By Euclid's lemma p | x &minus; 1 or p | x + 1; the first contradicts the minimality of k. &#8718;</p>
     <p><b>Careful.</b> (3) needs p prime: for d = 33, ord(10) = 2 but 10 is not &equiv; &minus;1 (mod 33). For composite d with gcd(d, 10) = 1, Euler gives 10<sup>&phi;(d)</sup> &equiv; 1, so &phi;(d)-blocks work and the shortest additive block is still ord<sub>d</sub>(10). Example: &phi;(27) = 18 but ord<sub>27</sub>(10) = 3, since 999 = 27 &times; 37.</p>
     <p class="ex2">7: ord = 6 | 6, even, so 10<sup>3</sup> &equiv; &minus;1. &nbsp; 13: ord = 6 | 12. &nbsp; 37: ord = 3 | 36 (odd, no &minus;1 rule). &nbsp; 41: ord = 5 | 40.</p>
 
-    <h3>E &middot; Block length = period of 1/p</h3>
+    <h3>E. Block length = period of 1/p</h3>
     <div class="fig">${cycle7()}<div class="cap">Remainders of 1 &divide; 7: 1, 3, 2, 6, 4, 5, back to 1. They are 10<sup>i</sup> mod 7. Six steps, so six digits.</div></div>
     <p><b>Theorem.</b> If gcd(d, 10) = 1, d &gt; 1, then 1/d is purely repeating with period ord<sub>d</sub>(10).</p>
     <p><b>Proof.</b> Long division starts with remainder r<sub>0</sub> = 1 and each step replaces r by 10r mod d, so r<sub>i</sub> &equiv; 10<sup>i</sup> (mod d). The digits repeat from the first i with r<sub>i</sub> = 1, which is i = ord<sub>d</sub>(10). &#8718; &nbsp; Also directly: 10<sup>6</sup>/7 &minus; 1/7 = 142857, so 999999 = 7 &times; 142857.</p>
     <p><b>So "how many digits per block for 7" and "how long is the period of 1/7" are the same question.</b> Both answers are 6.</p>
     <p><b>Bonus.</b> 142857 &times; 1, 2, &hellip;, 6 = 142857, 285714, 428571, 571428, 714285, 857142: the same digits rotated, and &times; 7 = 999999. Reason: the powers of 10 mod 7 hit every non-zero remainder, so 10 is a <i>primitive root</i> mod 7, and k/7 just enters the same cycle at a different point. <b>Midy:</b> 142 + 857 = 999 and 076 + 923 = 999 (for 1/13), because 10<sup>3</sup> &equiv; &minus;1.</p>
 
-    <h3>F &middot; Not in the talk, in the full deck</h3>
+    <h3>F. More, if you are curious</h3>
     <p class="more">Chop-the-last-digit rules from 10<sup>&minus;1</sup> mod d (7: x &minus; 2y; 13: x + 4y). &nbsp; 2<sup>k</sup> and 5<sup>k</sup>: last k digits, since 10 &equiv; 0. &nbsp; Coprime factors combine (6 = 2 &times; 3), non-coprime do not (4 and 6 divide 12, but 24 does not). &nbsp; Other bases: digit sum tests b &minus; 1, alternating sum tests b + 1. &nbsp; ISBN-10 check digits use mod 11 because 11 is prime.</p>
 
   </div>
@@ -202,6 +201,6 @@ th { background: #E6EFE9; color: ${GREEN}; }
 sub, sup { font-size: 75%; line-height: 0; }
 `;
 
-const html = `<!doctype html><html><head><meta charset="utf-8"><title>Worksheet: Numbers That Talk</title><style>${CSS}</style></head><body>${page1}${page2}</body></html>`;
+const html = `<!doctype html><html><head><meta charset="utf-8"><title>Divisibility worksheet</title><style>${CSS}</style></head><body>${page1}${page2}</body></html>`;
 fs.writeFileSync(OUT, html);
 console.log("wrote", OUT);

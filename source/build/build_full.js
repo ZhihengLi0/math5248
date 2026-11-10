@@ -1,6 +1,6 @@
 // Full deck (the "product"): readable on its own, with proofs, all examples and the theorem map.
 const path = require("path");
-const { THEME, newPres, title: titleEn, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
+const { THEME, finalize, newPres, title: titleEn, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 
 const OUT = path.join(__dirname, "..", "..", "presentation", "PPT完整版.pptx");
@@ -28,7 +28,6 @@ async function main() {
     { en: "Full version: proofs, every example, and the theorem map", zh: "完整版：含证明、全部例子和定理总表" },
   ], { x: 5.0, y: 2.2, w: 4.5, h: 1.3, size: 14, zhSize: 11, gap: 5 });
   bi(s, col, [{ en: "Zhiheng Li  ·  Yueran" }, { en: "MATH 5248 · Fall 2026 · final mini project" }], { x: 5.0, y: 3.45, w: 4.5, h: 0.7, size: 15 });
-  pill(s, pres, col, "Everything here was worked out by hand and then checked with a small script: github.com/ZhihengLi0/math5248", { x: 0.5, y: 4.4, w: 9.0, h: 0.55, size: 12, fill: "2A4A3C", color: col.chalk, bold: false });
 
   // ───────── 2 questions + roadmap ─────────
   s = board("Intro");
@@ -200,7 +199,7 @@ async function main() {
     ["7, 13, 77, 91", "3", "−1", "alternate 3-blocks · 三位交错"],
     ["41, 271", "5", "+1", "add 5-blocks · 五位相加"],
   ], { x: 4.8, y: 1.9, w: 4.7, h: 2.6, colW: [1.4, 0.4, 0.65, 2.25], dark: false, size: 11, headSize: 11 });
-  txt(s, col, "99999 = 9 × 41 × 271,  999 = 27 × 37,  1001 = 7 × 11 × 13,  all checked by hand and by script", { x: 0.5, y: 4.65, w: 9.0, h: 0.35, size: 11, color: col.mutedInk });
+  txt(s, col, "99999 = 9 × 41 × 271,  999 = 27 × 37,  1001 = 7 × 11 × 13", { x: 0.5, y: 4.65, w: 9.0, h: 0.35, size: 11, color: col.mutedInk });
 
   // ───────── 11 existence: Fermat + order ─────────
   s = board("General");
@@ -366,7 +365,7 @@ async function main() {
     ["7, 13", "alternate 3-blocks · 三位交错", "026 − 2 = 24", "3, 11 ✓"],
     ["37", "add 3-blocks · 三位相加", "2 + 026 = 28", "28 ✓"],
   ], { x: 0.5, y: 2.3, w: 9.0, h: 2.4, colW: [0.9, 3.6, 2.6, 1.9], size: 11, headSize: 11 });
-  txt(s, col, "2026 = 2 × 1013, and 1013 is prime, so none of these divide it, and every remainder above was checked by script.  ·  2026 = 2 × 1013，1013 是素数", { x: 0.5, y: 4.75, w: 9.0, h: 0.3, size: 10, color: col.mutedChalk });
+  txt(s, col, "2026 = 2 × 1013, and 1013 is prime, so none of these divide it.  ·  2026 = 2 × 1013，1013 是素数", { x: 0.5, y: 4.75, w: 9.0, h: 0.3, size: 10, color: col.mutedChalk });
 
   // ───────── 21 theorem map ─────────
   s = paper("Wrap-up");
@@ -398,11 +397,11 @@ async function main() {
     { en: "J. Hoffstein, J. Pipher, J. H. Silverman, An Introduction to Mathematical Cryptography, 2nd ed., Springer. Fermat's little theorem, pp. 30–32.", zh: "" },
     { en: "NTIC, Number Theory: In Context and Interactive (link on the course Canvas page).", zh: "" },
     { en: "Wikipedia: Divisibility rule; Repeating decimal; Multiplicative order; Cyclic number; Midy's theorem; International Standard Book Number.", zh: "" },
-    { en: "All numerical examples were checked with our own script: github.com/ZhihengLi0/math5248 (verify/check_examples.py).", zh: "所有数字例子都用我们自己写的脚本验算过" },
   ], { x: 0.5, y: 1.2, w: 9.0, h: 3.9, size: 13, zhSize: 11, gap: 8 });
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
+  await finalize(OUT);
   console.log("wrote", OUT);
 }
 main().catch((e) => { console.error(e); process.exit(1); });

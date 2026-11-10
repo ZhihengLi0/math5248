@@ -1,6 +1,6 @@
 // Presentation deck: 9 slides. Zhiheng 1-5 (10 ≡ 1, trick 1), Yueran 6-9 (trick 2, the general result).
 const path = require("path");
-const { THEME, newPres, title, bi, txt, blocks, clock9, cycle, pill, formulaBox } = require("./theme");
+const { THEME, finalize, newPres, title, bi, txt, blocks, clock9, cycle, pill, formulaBox } = require("./theme");
 const { applyTheme } = require(process.env.PPTX_SKILL + "/scripts/apply_theme.js");
 const { SLIDES } = require("./script_data");
 
@@ -22,10 +22,10 @@ async function main() {
   txt(s, col, "Numbers That Talk", { x: 5.0, y: 0.95, w: 4.6, h: 0.7, size: 36, bold: true, color: col.yellow, fontFace: "Cambria" });
   txt(s, col, "数字会说话", { x: 5.0, y: 1.6, w: 4.6, h: 0.5, size: 22, color: col.yellow, fontFace: "Cambria" });
   bi(s, col, [
-    { en: "Divisibility shortcuts, and the modular arithmetic hiding behind them", zh: "整除速判规则，以及藏在背后的模运算" },
+    { en: "Divisibility rules and why they work", zh: "整除规则和它们背后的原理" },
   ], { x: 5.0, y: 2.2, w: 4.5, h: 1.0, size: 15 });
   bi(s, col, [
-    { en: "Zhiheng Li  ·  Yueran" }, { en: "MATH 5248 · Fall 2026 · final mini project" },
+    { en: "Zhiheng Li and Yueran" }, { en: "MATH 5248, Fall 2026" },
   ], { x: 5.0, y: 3.2, w: 4.5, h: 0.7, size: 15 });
 
   pill(s, pres, col, "Is 2026 divisible by 9?   ·   2026 能被 9 整除吗？", { x: 0.5, y: 4.3, w: 9.0, h: 0.62, size: 18, fill: col.yellow });
@@ -88,7 +88,7 @@ async function main() {
 
   // ───────────────────────── A4  999 = 27 × 37 ─────────────────────────
   s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Zhiheng" });
-  title(s, col, "Same idea, bigger chunks", "三位一组", false);
+  title(s, col, "What about 37?", "三位一组", false);
   formulaBox(s, pres, col, "1000 = 999 + 1   ⇒   {g:1000 ≡ 1 (mod 999)},     999 = {g:27 × 37}", { x: 0.5, y: 1.25, w: 9.0, h: 0.6, size: 20, dark: false });
   bi(s, col, [{ en: "So cut a number into three-digit chunks from the right and add them. That tests 27 and 37.", zh: "从个位起三位一组相加，就能判断 27 和 37" }], { x: 0.5, y: 2.0, w: 9.0, h: 0.5, size: 15, zhSize: 12, dark: false });
 
@@ -159,7 +159,7 @@ async function main() {
 
   // ───────────────────────── B2  reveal ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  title(s, col, "Why it works: 1000 acts like −1", "揭秘：1000 就是 −1", true);
+  title(s, col, "Why trick 2 works", "揭秘：1000 就是 −1", true);
   formulaBox(s, pres, col, "abcabc = abc·1000 + abc = abc · 1001 = abc · {p:7 · 11 · 13}", { x: 0.5, y: 1.25, w: 9.0, h: 0.6, size: 20 });
 
   bi(s, col, [
@@ -179,7 +179,7 @@ async function main() {
 
   // ───────────────────────── B3  one idea + Fermat + order = period ─────────────────────────
   s = pres.addSlide({ masterName: "BOARD", sectionTitle: "Yueran" });
-  title(s, col, "One idea, every prime", "一个想法，每个素数", true);
+  title(s, col, "Does every prime have a rule?", "每个素数都有规则吗", true);
   formulaBox(s, pres, col, "find k with  10^{k} ≡ {y:+1}  or  {p:−1}   (mod d)", { x: 0.5, y: 1.2, w: 5.4, h: 0.52, size: 17 });
   bi(s, col, [
     { en: "{y:+1}: add k-digit chunks.  9 (k = 1), 37 (k = 3)", zh: "+1：k 位一组相加" },
@@ -212,13 +212,14 @@ async function main() {
   s.addShape(S.roundRect, { x: 0.6, y: 3.3, w: 8.8, h: 0.95, fill: { color: "2A4A3C" }, line: { color: "2A4A3C", width: 0 }, rectRadius: 0.1, objectName: "more-bg" });
   bi(s, col, [
     { en: "The proofs are on the back of your worksheet.", zh: "证明在 worksheet 背面" },
-    { en: "A quick rule for 7, why ISBN uses 11, 142857 and more: github.com/ZhihengLi0/math5248", zh: "更多内容在 GitHub" },
+    { en: "There is more (a quick rule for 7, why ISBN numbers use 11). Ask us after class!", zh: "更多内容下课可以问我们" },
   ], { x: 0.8, y: 3.42, w: 8.4, h: 0.75, size: 15, zhSize: 11, gap: 5 });
   txt(s, col, "Thank you. Now go try the 1001 trick on a friend.  ·  谢谢", { x: 0.6, y: 4.65, w: 8.8, h: 0.45, size: 16, color: col.yellow, align: "center" });
   s.addNotes(notes.B4);
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
+  await finalize(OUT);
   console.log("wrote", OUT);
 }
 main().catch((e) => { console.error(e); process.exit(1); });

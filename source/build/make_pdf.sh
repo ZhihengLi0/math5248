@@ -14,4 +14,7 @@ python3 "$HERE/build_speech_pdf.py" 演讲稿.md 演讲稿.html
 python3 "$HERE/build_speech_pdf.py" 演讲稿.md 演讲稿_英文.html --en
 print_pdf 演讲稿 && print_pdf 演讲稿_英文
 rm -f 演讲稿.html 演讲稿_英文.html Worksheet提交版.html
+python3 "$HERE/fix_pdf_meta.py" Worksheet提交版.pdf "Divisibility worksheet"
+python3 "$HERE/fix_pdf_meta.py" 演讲稿.pdf "演讲稿"
+python3 "$HERE/fix_pdf_meta.py" 演讲稿_英文.pdf "Speaker script"
 ls -la "$P"/*.pdf

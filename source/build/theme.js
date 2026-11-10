@@ -43,6 +43,8 @@ function newPres() {
   pres.layout = "LAYOUT_16x9"; // 10 x 5.625 in
   pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
   pres.author = "Zhiheng Li, Yueran";
+  pres.subject = "MATH 5248";
+  pres.company = "University of Minnesota";
   pres.title = "Divisibility Rules and Modular Arithmetic";
   const C = pres.SchemeColor;
   const col = {
@@ -294,4 +296,38 @@ function title(slide, col, en, zh, dark = true) {
   slide.addText(parts, { placeholder: "title" });
 }
 
-module.exports = { LANG, enOnly, title, THEME, newPres, runs, resolve, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table };
+// After writing: give every shape the name PowerPoint itself would use ("TextBox 4", "Oval 7", ...)
+// and give the layouts plain names, so the file looks like an ordinary PowerPoint deck.
+async function finalize(file) {
+  const fs = require("fs");
+  const JSZip = require("jszip");
+  const zip = await JSZip.loadAsync(fs.readFileSync(file));
+  const layoutNames = { DEFAULT: "Blank", BOARD: "Dark", PAPER: "Light", BOARD_HERO: "Dark Title", PAPER_HERO: "Light Title" };
+  const renameLayouts = (x) => x.replace(/(<p:cSld name="|<vt:lpstr>)(DEFAULT|BOARD|PAPER|BOARD_HERO|PAPER_HERO)(">|<\/vt:lpstr>)/g, (m, a, n, b) => a + layoutNames[n] + b);
+  for (const p of Object.keys(zip.files)) {
+    if (/^ppt\/slideLayouts\/slideLayout\d+\.xml$/.test(p) || p === "docProps/app.xml") {
+      zip.file(p, renameLayouts(await zip.file(p).async("string")));
+    } else if (/^ppt\/slides\/slide\d+\.xml$/.test(p)) {
+      let x = await zip.file(p).async("string");
+      x = x.replace(/<(p:sp|p:cxnSp|p:graphicFrame)>([\s\S]*?)<\/\1>/g, (m, tag, body) => {
+        const id = body.match(/<p:cNvPr id="(\d+)"/);
+        if (!id) return m;
+        const ph = body.match(/<p:ph[^>]*type="(\w+)"/);
+        let kind;
+        if (tag === "p:graphicFrame") kind = "Table";
+        else if (ph) kind = ph[1] === "title" ? "Title" : ph[1] === "sldNum" ? "Slide Number Placeholder" : "Text Placeholder";
+        else if (/txBox="1"/.test(body)) kind = "TextBox";
+        else {
+          const g = (body.match(/prst="(\w+)"/) || [])[1];
+          kind = { ellipse: "Oval", roundRect: "Rounded Rectangle", rect: "Rectangle" }[g]
+            || (g === "line" ? (/tailEnd|headEnd/.test(body) ? "Straight Arrow Connector" : "Straight Connector") : "Freeform");
+        }
+        return m.replace(/(<p:cNvPr id="\d+" name=")[^"]*"/, `$1${kind} ${Number(id[1]) - 1}"`);
+      });
+      zip.file(p, x);
+    }
+  }
+  fs.writeFileSync(file, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
+}
+
+module.exports = { finalize, LANG, enOnly, title, THEME, newPres, runs, resolve, bi, txt, blocks, clock9, cycle, signChain, pill, formulaBox, table };

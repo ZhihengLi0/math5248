@@ -8,7 +8,7 @@ const SLIDES = [
   {
     id: "A1", n: 1, speaker: "A", secs: 30, title: "Title: Numbers That Talk",
     zh: "大家好，我是 Zhiheng，这是 Yueran。大家手上应该都有一张 worksheet。先问个问题。今年是 2026。**2026 能被 9 整除吗？**把数字加起来：2、0、2、6，等于 10。不是 9 的倍数，所以不能。奇怪的是，10 除以 9 余 1，2026 也余 1。为什么？我们用一个魔术来找答案。",
-    en: "Hi everyone. I'm Zhiheng, and this is Yueran. You should all have a worksheet. Quick question to start. This year is 2026. **Is 2026 divisible by 9?** Add the digits: 2, 0, 2, 6. That's 10. Not a multiple of 9, so no. Here's the weird part. 10 leaves remainder 1, and so does 2026. Why? Let's find out with a trick.",
+    en: "Hi everyone. I'm Zhiheng, and this is Yueran. You should all have a worksheet. Quick question to start. This year is 2026. **Is 2026 divisible by 9?** Add the digits: 2, 0, 2, 6. That's 10. Not a multiple of 9, so no. But look: 10 leaves remainder 1, and so does 2026. Why? Let's find out with a trick.",
     hints: ["开讲前发好 worksheet。问完停 5 秒让大家在 warm-up 那行写。 / Hand out the worksheets before you start. After the question, wait 5 seconds so people can fill in the warm-up line."],
   },
   {
@@ -24,11 +24,11 @@ const SLIDES = [
   {
     id: "A3", n: 3, speaker: "A", secs: 90, title: "A clock with only 9 marks",
     zh: "原理是这样。2026 其实是 2 个一千、0 个一百、2 个十，再加 6。**看这个钟，只有 9 个刻度。**从顶上出发走 10 格，会停在顶上的下一格，和走 1 格一样。走 100 格呢？还是下一格。1000 格也是。所以在这个钟上，2026 就是 2 加 0 加 2 加 6。用课上的话说：10 模 9 同余于 1。整个想法就这一句。再看魔术。你的数和打乱后的数，用的是同样的数字，所以停在同一个刻度。一减，就回到顶上，也就是 0。**所以答案的各位数字加起来，一定是 9 的倍数。**你念了几个，我把缺的补上就行。这也是为什么不能圈 0：0 和 9 我分不出来。",
-    en: "Here's how it works. 2026 is 2 thousands, 0 hundreds, 2 tens, and 6. **Now look at this clock. It only has 9 marks.** Start at the top and walk 10 steps. You land one mark past the top. Same as walking 1 step. Walk 100 steps? Still one mark. 1000? Still one. So on this clock, 2026 is just 2 plus 0 plus 2 plus 6. In class words: 10 is congruent to 1 mod 9. That's the whole idea. Now the trick. Your number and the shuffled one use the same digits. So they stop at the same mark. Subtract, and you're back at the top. That's zero. **So the digits of your answer always add up to a multiple of 9.** You told me all but one. I just filled the gap. That's also why you can't circle a zero. A zero and a nine look the same to me.",
+    en: "So how does it work? 2026 is 2 thousands, 0 hundreds, 2 tens, and 6. **Now look at this clock. It only has 9 marks.** Start at the top and walk 10 steps. You land one mark past the top. Same as walking 1 step. Walk 100 steps? Still one mark. 1000? Still one. So on this clock, 2026 is just 2 plus 0 plus 2 plus 6. In class words: 10 is congruent to 1 mod 9. That's the whole idea. Now the trick. Your number and the shuffled one use the same digits. So they stop at the same mark. Subtract, and you're back at the top. That's zero. **So the digits of your answer always add up to a multiple of 9.** You told me all but one. I just filled the gap. That's also why you can't circle a zero. A zero and a nine look the same to me.",
     hints: ["用手指在钟上慢慢走 10 格。 / Walk your finger 10 steps around the clock, slowly."],
   },
   {
-    id: "A4", n: 4, speaker: "A", secs: 45, title: "Same idea, bigger chunks",
+    id: "A4", n: 4, speaker: "A", secs: 45, title: "What about 37?",
     zh: "同样的想法，步子大一点。1000 等于 999 加 1。所以在 999 的钟上，1000 就像 1。而 999 等于 27 乘 37。所以从右边三位一组切开，加起来就行。**45658。切成 45 和 658，加起来 703。703 等于 19 乘 37。**所以 37 整除 45658，不用长除法。记得从右边切。",
     en: "Same idea, bigger steps. 1000 is 999 plus 1. So on a 999-clock, 1000 acts like 1. And 999 is 27 times 37. So cut a number into three-digit chunks from the right and add them. **45658. Chunks 45 and 658. Add them: 703. And 703 is 19 times 37.** So 37 divides 45658. No long division. Just remember to cut from the right.",
   },
@@ -48,20 +48,20 @@ const SLIDES = [
     ],
   },
   {
-    id: "B2", n: 7, speaker: "B", secs: 60, title: "Why it works: 1000 acts like −1",
+    id: "B2", n: 7, speaker: "B", secs: 60, title: "Why trick 2 works",
     zh: "**把 abc 写两遍，就是 abc 乘 1000 再加 abc，也就是 abc 乘 1001。1001 等于 7 乘 11 乘 13。**所以除以 7、11、13，就是除以 1001。这就是魔术。但有用的是下面这点。1000 等于 1001 减 1。所以模 1001 的时候，1000 就是负 1。把一个数从右边三位一组切开，一加一减，就得到它模 7、11、13 的余数，一次三个。**试 2026。切成 2 和 026。26 减 2 等于 24。**24 除以 7 余 3，除以 13 余 11。都对。",
-    en: "**Writing abc twice is abc times 1000, plus abc. That's abc times 1001. And 1001 is 7 times 11 times 13.** So dividing by 7, 11 and 13 is just dividing by 1001. That's the trick. Here's the useful part. 1000 is 1001 minus 1. So mod 1001, 1000 acts like minus 1. Cut a number into three-digit chunks and alternate plus and minus. You get the remainder mod 7, 11 and 13, all at once. **Try 2026. Chunks 2 and 026. 26 minus 2 is 24.** 24 mod 7 is 3. 24 mod 13 is 11. Both right.",
+    en: "**Writing abc twice is abc times 1000, plus abc. That's abc times 1001. And 1001 is 7 times 11 times 13.** So dividing by 7, 11 and 13 is just dividing by 1001. That's the trick. Now the useful part. 1000 is 1001 minus 1. So mod 1001, 1000 acts like minus 1. Cut a number into three-digit chunks and alternate plus and minus. You get the remainder mod 7, 11 and 13, all at once. **Try 2026. Chunks 2 and 026. 26 minus 2 is 24.** 24 mod 7 is 3. 24 mod 13 is 11. Both right.",
   },
   {
-    id: "B3", n: 8, speaker: "B", secs: 90, title: "One idea, every prime",
-    zh: "所以大图是这样。**找一个 k，让 10 的 k 次方模 d 等于 1 或者负 1。**等于 1 就 k 位一组加起来，等于负 1 就一加一减。9 用 k 等于 1，37 用 3，7 和 13 用 3 再加负号。是不是每个数都有这样的 k？**费马小定理说：除了 2 和 5，每个素数都有。10 的 p 减 1 次方模 p 等于 1。**最短的那个 k 叫 10 模 p 的阶。最让我们意外的是：这个数正好是 1/p 循环几位。**1/7 等于 0.142857 循环，6 位。10 模 7 的阶也是 6。**看 1 除以 7 的余数：1、3、2、6、4、5，然后回到 1。这些就是 10 的各次方模 7。6 步，6 位。顺便一提，142857 乘 2 是 285714，同一串数字，转了一圈。",
-    en: "So here's the big picture. **Find a k so that 10 to the k is 1 or minus 1 mod d.** If it's 1, add k-digit chunks. If it's minus 1, alternate them. 9 uses k equals 1. 37 uses 3. 7 and 13 use 3, with the minus. Does every number have a k? **Fermat's little theorem says yes, for every prime except 2 and 5: 10 to the p minus 1 is 1 mod p.** The shortest k is called the order of 10 mod p. And here's what surprised us most. That same number is how long 1 over p repeats. **1 over 7 is 0.142857, repeating. Six digits. The order of 10 mod 7 is also 6.** Look at the remainders when you divide 1 by 7: 1, 3, 2, 6, 4, 5, then back to 1. Those are the powers of 10 mod 7. Six steps, six digits. Bonus: 142857 times 2 is 285714. Same digits, just rotated.",
+    id: "B3", n: 8, speaker: "B", secs: 90, title: "Does every prime have a rule?",
+    zh: "合起来看。**找一个 k，让 10 的 k 次方模 d 等于 1 或者负 1。**等于 1 就 k 位一组加起来，等于负 1 就一加一减。9 用 k 等于 1，37 用 3，7 和 13 用 3 再加负号。是不是每个数都有这样的 k？**费马小定理说：除了 2 和 5，每个素数都有。10 的 p 减 1 次方模 p 等于 1。**最短的那个 k 叫 10 模 p 的阶。最让我们意外的是：这个数正好是 1/p 循环几位。**1/7 等于 0.142857 循环，6 位。10 模 7 的阶也是 6。**看 1 除以 7 的余数：1、3、2、6、4、5，然后回到 1。这些就是 10 的各次方模 7。6 步，6 位。顺便一提，142857 乘 2 是 285714，同一串数字，转了一圈。",
+    en: "Let's put it together. **Find a k so that 10 to the k is 1 or minus 1 mod d.** If it's 1, add k-digit chunks. If it's minus 1, alternate them. 9 uses k equals 1. 37 uses 3. 7 and 13 use 3, with the minus. Does every number have a k? **Fermat's little theorem says yes, for every prime except 2 and 5: 10 to the p minus 1 is 1 mod p.** The shortest k is called the order of 10 mod p. The part that surprised us most: that same number is how long 1 over p repeats. **1 over 7 is 0.142857, repeating. Six digits. The order of 10 mod 7 is also 6.** Look at the remainders when you divide 1 by 7: 1, 3, 2, 6, 4, 5, then back to 1. Those are the powers of 10 mod 7. Six steps, six digits. Bonus: 142857 times 2 is 285714. Same digits, just rotated.",
     hints: ["用手指沿余数圈走一遍：1 → 3 → 2 → 6 → 4 → 5。 / Trace the remainder cycle with your finger: 1 → 3 → 2 → 6 → 4 → 5."],
   },
   {
     id: "B4", n: 9, speaker: "B", secs: 30, title: "One sentence",
-    zh: "一句话：**只要知道 10 模 d 等于几，你就能自己造出 d 的整除规则。**证明都在 worksheet 背面。更多的，比如 7 的快速规则、ISBN 为什么用 11，在我们的 GitHub 上。谢谢！回去找个朋友试试 1001 魔术。",
-    en: "One sentence. **If you know what 10 is mod d, you can build the rule for d yourself.** The proofs are on the back of your worksheet. More stuff, like a quick rule for 7 and why ISBN numbers use 11, is on our GitHub. Thanks! Go try the 1001 trick on a friend.",
+    zh: "一句话：**只要知道 10 模 d 等于几，你就能自己造出 d 的整除规则。**证明都在 worksheet 背面。还有更多，比如 7 的快速规则、ISBN 为什么用 11，下课可以来问我们。谢谢！回去找个朋友试试 1001 魔术。",
+    en: "One sentence. **If you know what 10 is mod d, you can build the rule for d yourself.** The proofs are on the back of your worksheet. There's more, like a quick rule for 7 and why ISBN numbers use 11. Ask us after class. Thanks! Go try the 1001 trick on a friend.",
   },
 ];
 const QA = [
